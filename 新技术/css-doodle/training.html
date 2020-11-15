@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/css-doodle@0.8.5/css-doodle.min.js"></script>
+
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Unica+One&display=swap');
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	height: 100vh;
+	background:	white;
+	font-size: 14px;
+	font-family: 'Unica One', cursive;
+	color: white;
+	padding: 50px;
+	display: flex;
+	padding: 20px;
+	background-color: #34353c;
+}
+
+#wrapper {
+	display: grid;
+	margin: auto;
+	grid-template: repeat(2, 250px) / repeat(2, 250px);
+	grid-gap: 30px;
+	position: relative;
+	padding-top: 30px;
+	
+	&:before {
+		content: "<css-doodle /> training";
+		position: absolute;
+		top: -5px;
+		left: 5px;
+	}
+	
+	div {
+		position: relative;
+		overflow: hidden;
+		border-radius: 5px;
+		background: #21242f;
+		border: 3px solid #e2e4eb;
+		box-shadow: -2px 2px 1px 0px rgba(0, 0, 0, 0.25);
+		
+		css-doodle {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+	}
+}
+
+@media screen and (max-width: 600px) {
+	#wrapper {
+		grid-template: repeat(4, 250px) / 250px;
+	}
+}
+</style>
+<body>
+    <div id="wrapper">
+        <div>
+            <css-doodle>
+                :doodle {
+                    @grid: 15 / 250px;
+                    grid-gap: 4px;
+                }
+                
+                :container {
+                    transform: rotate(45deg) scale(1.5);
+                }
+                
+                transition: .2s cubic-bezier(.175, .885, .32, 1.275) @rand(300ms);
+                background: rgb(@rand(100, 240), @rand(200, 240), 240);
+                opacity: @rand(0.1, 1);
+                @shape: circle;
+                @size: @rand(3px);
+                @place-cell: @rand(90%) @rand(90%);
+                
+                @random {
+                    @shape: bud 5;
+                    @size: @rand(5px);
+                    transform: rotate(@rand(300deg));
+                }
+            </css-doodle>
+        </div>
+        <div>
+            <css-doodle>
+                :doodle {
+                    @grid: 30x2 / 250px;
+                }
+    
+                @place-cell: center;
+                @size: calc(100% / @size() * @i() * 2);
+                transform: rotate(calc(@i() * 5deg));
+                border-radius: 30%;
+                border: 1px solid #8de7eb;
+                opacity: @pick-n(.6, .3, .2, .1);
+            </css-doodle>
+        </div>
+        <div>
+            <css-doodle>
+                :doodle {
+                    @grid: 1x50 / 250px;
+                }
+                
+                background: #60569e;
+                height: @rand(60%, 90%);
+                width: @rand(20%, 30%);
+                transform: scaleY(@rand(0.1, 1));
+                opacity: @rand(0.1, 1);
+                
+                --hue: calc(150 + 1.5 * @row() * @col());
+                background: hsl(var(--hue), 100%, 70%);
+            </css-doodle>
+        </div>
+        <div>
+            <css-doodle>
+                :doodle {
+                    @grid: 30x1 / 160px 200px;
+                    transform: translate(50px, 135px);
+                }
+                
+                @place-cell: center;
+                border-radius: 50%;
+                border: 2px solid #8de7eb;
+                @size: calc(100% / @size() * @i() - 10px);
+                opacity: calc(@i() * 0.03);
+                
+                border-top-color:#6174cb;
+                border-right-color:#6174cb;
+                
+                transform:
+                    rotateX(70deg)
+                    rotateY(6deg)
+                    translateY(calc(-@i() * 2 * 10px))
+                    translateX(calc(@sin(@i() / 5) * @PI() * 10px));
+                
+            </css-doodle>
+        </div>
+    </div>
+</body>
+</html>
