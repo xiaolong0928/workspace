@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/css-doodle@0.8.5/css-doodle.min.js"></script>
+</head>
+<body>
+    <!-- css doodle 代码里面不能添加注释 不然无法执行 -->
+    <!-- <css-doodle grid="5">
+        :doodle{
+            grid-gap:1px;
+            width:15em;
+            height:15em;
+        }
+        background:purple;
+    </css-doodle> -->
+    <!-- @size = height = width = 700px -->
+    <!-- @rand from 5 to 100 by random -->
+    <!-- <css-doodle grid="35x1">
+        :doodle {
+          grid-row-gap: 1px;
+          @size: 400px; 
+        }
+        background: #60569e;
+        width: @rand(5%, 100%); 
+      </css-doodle> -->
+<!--     
+      <css-doodle>
+        :doodle {
+          @grid: 5 / 8em;
+        }
+        background: #60569e;
+        transform: scale(@rand(.2, .9));
+      </css-doodle> -->
+      <!-- <css-doodle>
+        :doodle {
+          @grid: 5 / 8em;
+        }
+        background: #60569e;
+        transform: scale(@rand(.2, .9));
+        :doodle { --s: 0 }
+        :doodle(:hover) { --s: 1 }
+
+        transition: .5s cubic-bezier(.175, .885, .32, 1.275);
+        transition-delay: @rand(500ms);
+        transform: translateY(calc(var(--s) * 100%));
+      </css-doodle> -->
+
+          
+      <!-- <css-doodle>
+        :doodle {
+          @grid: 5 / 8em;
+        }
+        background: #60569e;
+        :doodle {
+            overflow: hidden;
+          }
+          :container {
+            grid-gap: 1px;
+            transform: rotate(45deg) scale(1.5);
+          }
+          
+      </css-doodle> -->
+      <!-- <css-doodle>
+        :doodle {
+          @grid: 5 / 8em;
+        }
+        background: #60569e;
+        :nth-child(1) {
+            background: #60569e;
+          }
+          @nth(5) {
+            background: #60569e;
+          }
+          @nth(3n + 8) {
+            background: #e6437d;
+          }
+          
+          @nth(1, 5, 3n + 8) {
+            :after {
+              content: @index;
+              color: #fff;
+            }
+          }
+      </css-doodle>  -->
+      <!-- <css-doodle>
+        :doodle {
+            @grid: 16 / 8em;
+            overflow: hidden;
+          }
+          margin: -.5px;
+          @random {
+            border-top: 1px solid #60569e;
+          }
+          @random {
+            border-left: 1px solid #60569e;
+          }
+          @random(.2) {
+            :after {
+              content: '';
+              background: hsl(@rand(360), 60%, 70%);
+              @size: @rand(3px);
+            }
+          }
+        
+      </css-doodle>  -->
+      <!-- <css-doodle>
+          :doodle{
+              @size:600px;
+              grid-gap:1px;
+              @grid:16x16;
+          }
+          background:purple;
+          @nth(2n) {
+            :after {
+              content: @index;
+              color: #fff;
+            }
+          }
+          @nth(2) { @place-cell: 0 top; }
+          @nth(20) { @place-cell: right 25%; }
+      </css-doodle> -->
+      <!-- <css-doodle>
+          :doodle{
+            @grid:7 / 8em;
+            @shape:circle;
+          }
+          @even{
+            @shape: hypocycloid 4;
+            background: #60569e;
+            transform: scale(2) rotate(-60deg);
+          }
+      </css-doodle> -->
+      <css-doodle>
+          :doodle { 
+              @size: 8em; 
+             @grid:5;
+            }
+          opacity: @pick-n(1, .6, .3, .1);
+          background: #60569e;
+          :after {
+            content: @pick-n([1-4]);
+            color: #fff;
+            font-size: .8em;
+          }
+        
+      </css-doodle>
+</body>
+</html>
