@@ -28,26 +28,27 @@
     });
   }
 
-//   function start(id) {
-//     execute(id).catch(console.error);
-//   }
+  function start(id) {
+    // execute(id).catch(console.error);
+    
+  }
 
 // 用promise
 function start(id){
-    start.kk = !start.kk
+    start.promises = !start.promises
     ? execute(id)
-    : start.kk.then(() => execute(id));
+    : start.promises.then(() => execute(id));
 }
   
-// function start(id) {
-//   if (id === 0) {
-//       const exc = (id) => {
-//           execute(id).then(() => {
-//               if (id < 4) {
-//                   exc(++id)
-//               }
-//           })
-//       }
-//       exc(id)
-//   }
-// }
+function start(id) {
+  if (id === 0) {
+      const exc = (id) => {
+          execute(id).then(() => {
+              if (id < 4) {
+                  exc(++id)
+              }
+          })
+      }
+      exc(id)
+  }
+}
