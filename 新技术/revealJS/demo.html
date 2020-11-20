@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/reveal.js/4.1.0/reveal.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/reveal.js/4.1.0/reveal.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section data-transition ='zoom' data-background="#defbbc">
+                <img src="http://res1.eqh5.com/FoDTYLWK-qKLklUtigP8e_C60F6Z" width="640" height="1008">
+            </section>
+            <section data-transition="zoom" data-background="#deaebc"><img src="http://res1.eqh5.com/FnTmFHAqQhNBGyeGNk8pg5LNy0gz" width="640" height="1008"></section>
+            <section data-transition="zoom" data-background="#de45bc">
+                <h2>This slide will override the presentation transition and zoom!</h2>
+            </section>
+            <!-- <section data-background-iframe="http://www.baidu.com/" data-background-interactive>
+            </section> -->
+        </div>
+    </div>
+    <script>
+        /**
+         * 转场效果
+         * data-transition ='convex' 翻页效果
+         * data-transition="zoom" 放缩效果
+         * data-transition="fade" 渐变 fade和slide 可以追加 in and out
+         * data-transition="slide" 滑动
+         * data-transition="concave" 轮动
+         * 转场速度 快 慢 普通
+         * data-transition-speed="fast"
+         * 设置背景色  可以设置背景色 背景图片 背景视频
+         * data-background="#defbbc" 
+        */
+        Reveal.initialize({
+            // 是否在右下角展示控制条
+            controls: true,
+            // 是否显示演示的进度条
+            progress: true,
+            // 是否显示当前幻灯片的页数
+            slideNumber: 'c/t',
+            // 场景背景切换  没啥用呢
+            backgroundTransition: 'slide'
+        });
+    </script>
+</body>
+</html>
