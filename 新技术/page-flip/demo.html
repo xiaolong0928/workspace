@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./page-flip.browser.js"></script>
+</head>
+<style>
+    .my-page{
+        height: 600px;
+        width: 200px;
+        background: gray;
+    }
+    .container{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+<body>
+    <div class="container">
+        <div id="book">
+            <div class="my-page" >
+                Page Cover
+            </div>
+            <div class="my-page">
+                Page one
+            </div>
+            <div class="my-page">
+                Page two
+            </div>
+            <div class="my-page">
+                Page three
+            </div>
+            <div class="my-page">
+                Page four
+            </div>
+            <div class="my-page" >
+                Last page
+            </div>
+        </div>
+    </div>
+    <button id="prev">prev</button>
+    <button id="next">next</button>
+    <script>
+        const pageFlip = new St.PageFlip(document.getElementById('book'),
+            {
+                width: 400, // required parameter - base page width
+                height: 600,  // required parameter - base page height
+                showCover: true
+            }
+        );
+
+        pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
+        let nextNode = document.getElementById('next')
+        let prevNode = document.getElementById('prev')
+        console.log(pageFlip)
+        nextNode.addEventListener('click',function(){
+            pageFlip.flipNext()
+        })
+        prevNode.addEventListener('click',function(){
+            pageFlip.flipPrev()
+        })
+    </script>
+</body>
+</html>

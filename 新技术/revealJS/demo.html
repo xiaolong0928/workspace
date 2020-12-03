@@ -7,19 +7,26 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/reveal.js/4.1.0/reveal.js"></script>
     <link href="https://cdn.bootcdn.net/ajax/libs/reveal.js/4.1.0/reveal.min.css" rel="stylesheet">
 </head>
+<style>
+    .reveal{
+        width:600px;
+        height: 800px;
+    }
+</style>
 <body>
     <div class="reveal">
         <div class="slides">
-            <section data-transition ='zoom' data-background="#defbbc">
-                <img src="http://res1.eqh5.com/FoDTYLWK-qKLklUtigP8e_C60F6Z" width="640" height="1008">
+            <section  data-background="#defbbc">
+                <img src="http://res1.eqh5.com/FoDTYLWK-qKLklUtigP8e_C60F6Z" >
             </section>
-            <section data-transition="zoom" data-background="#deaebc"><img src="http://res1.eqh5.com/FnTmFHAqQhNBGyeGNk8pg5LNy0gz" width="640" height="1008"></section>
-            <section data-transition="zoom" data-background="#de45bc">
+            <section  data-background="#deaebc"><img src="http://res1.eqh5.com/FnTmFHAqQhNBGyeGNk8pg5LNy0gz" ></section>
+            <section  data-background="#de45bc">
                 <h2>This slide will override the presentation transition and zoom!</h2>
             </section>
             <!-- <section data-background-iframe="http://www.baidu.com/" data-background-interactive>
             </section> -->
         </div>
+
     </div>
     <script>
         /**
@@ -44,6 +51,10 @@
             // 场景背景切换  没啥用呢
             backgroundTransition: 'slide'
         });
+
+        setTimeout(()=>{
+            Reveal.configure({transition:'convex'})
+        },3000)
     </script>
 </body>
 </html>

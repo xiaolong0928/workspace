@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="test"></div>
+    <div id="test2"></div>
+    <script>
+        const testNode1 = document.querySelector('#test')
+        const testNode2 = document.querySelector('#test2')
+        const node = document.createElement('div')
+        const clone = node.cloneNode(true)
+        testNode1.append(node)
+        testNode2.append(clone)
+    </script>
+</body>
+</html>

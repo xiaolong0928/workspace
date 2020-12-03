@@ -7,3 +7,7 @@
 ```css
     transform:translateZ(0);
 ```
+### 一个div 起码可以当几个div来用？   
++ div 
++ after或者before
++ box-shadow
