@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box{
+        display: flex;
+        width: 900px;
+        height: 800px;
+        flex-wrap: wrap;
+        align-content: flex-start;
+    }
+    .item{
+        margin:10px;
+        width: 180px;
+        height: 120px;
+        background-color: coral;
+        background-image: url('http://res1.eqh5.com/4f9f661f7c7609144bae0e2b65eae8a5');
+        background-size: cover;
+        background-repeat: no-repeat;
+        /* background: url('http://res1.eqh5.com/4f9f661f7c7609144bae0e2b65eae8a5') center /cover no-repeat; */
+    }
+    /* 正片叠底模式 */
+    .multiply{
+        background-blend-mode:multiply;
+    }
+    /* 滤色模式 */
+    .screen{
+        background-blend-mode:screen;
+    }
+    /* 变暗模式 */
+    .darken{
+        background-blend-mode:darken;
+    }
+    /* 变亮模式 */
+    .lighten{
+        background-blend-mode:lighten;
+    }
+    /* 颜色减淡模式 */
+    .color-dodge{
+        background-blend-mode:color-dodge;
+    }
+    /* 饱和度模式 */
+    .saturation{
+        background-blend-mode:saturation;
+    }
+    /* 颜色模式 */
+    .color{
+        background-blend-mode:color;
+    }
+    /* 颜色模式 */
+    .luminosity{
+        background-blend-mode:luminosity;
+    }
+    .two{
+        background-image: url('http://res1.eqh5.com/c7b9c42eca32306e4cce2efe6c946c77'),url('http://res1.eqh5.com/4f9f661f7c7609144bae0e2b65eae8a5');
+    }
+</style>
+<body>
+    <div class="box">
+        <div class="item multiply"></div>
+        <div class="item screen"></div>
+        <div class="item darken"></div>
+        <div class="item lighten"></div>
+        <div class="item color-dodge"></div>
+        <div class="item saturation"></div>
+        <div class="item color"></div>
+        <div class="item luminosity"></div>
+        <div class="item two lighten"></div>
+    </div>
+</body>
+</html>
