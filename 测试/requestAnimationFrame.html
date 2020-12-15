@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #test{
+        width: 100px;
+        height: 100px;
+        background: olive;
+    }
+</style>
+<body>
+    <div id="test"></div>
+    <button id="stop">stop</button>
+    <script>
+        let margin = 0
+        function render(){
+            let node = document.querySelector('#test')
+            margin++
+            node.style.marginLeft = margin+'px'
+        }
+        let id = 0
+        function animloop() {
+            render();
+            id = window.requestAnimationFrame(animloop);
+            console.log('run id is ',id)
+        };
+        animloop()
+        console.log('cancel id is ',id)
+        // window.cancelAnimationFrame(id)
+
+        let stopNode = document.querySelector('#stop')
+        stopNode.addEventListener('click',function(){
+            // id = window.requestAnimationFrame(animloop);
+            console.log('cancel id is ',id)
+            window.cancelAnimationFrame(id)
+        })
+    </script>
+</body>
+</html>
