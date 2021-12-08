@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+  background:black;
+}
+
+div div{
+  transform-origin:0% 50%;
+  position:absolute;
+  width:200px;
+  height:350px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 10%;
+}
+
+
+.individual-page {
+    transform-style:preserve-3d;
+    transition: 0.5s ease all;
+    -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+</style>
+<body>
+    <div class="canvas">
+        <div class="collection"></div>
+      </div>   
+      <div class="canvas">
+        <div class="collection"></div>
+      </div>   
+    <script>
+   // It is the same code as the train-window one except the number of pageCount and perspectivePX are different.
+
+$(document).ready(function() {
+    var pageCount = 20;
+    var perspectivePX = 1000;
+    var yDegree = -40;
+    var pageOpacity = 1.0;
+  
+    var createSinglePage = function (pageCount) {
+        
+        // You could potentially have multiple images. However, you have to adjust the margin-left and margin-top.
+    
+        var bookUrl = ["http://artfiles.alphacoders.com/761/76165.jpg"];
+        for (var b = 0; b < bookUrl.length; b++) {
+            $('.collection').append('<div class="book" id="book-'+ b+ '"></div>');
+            var idName = '#book-'+b;
+            $(idName).css('margin-left',100 +'%');
+            $(idName).css('margin-top', 5 + '%');
+
+            for( var i = 1 ; i < pageCount ; i++) {
+                $('#book-'+b).append('<div class="individual-page" id="book-'+ b+ '-page'+i+'"></div>');
+                $('#book-'+b+'-page'+i).css('background', 'linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("'+bookUrl[b]+'")');
+                $('#book-'+b+'-page'+i).css('background-size', '0, cover');
+                $('#book-'+b+'-page'+i).css('opacity', pageOpacity);
+                $('#book-'+b+'-page'+i).css('transform', 'perspective('+ perspectivePX +'px) rotateY('+ yDegree+ 'deg)');
+                yDegree-=10;
+                pageOpacity-=0.1;
+
+                if(pageOpacity < 0) {
+                    pageOpacity = Math.abs(pageOpacity);
+                }
+            }
+        }
+    }
+    createSinglePage(pageCount);
+});
+    </script>
+</body>
+</html>

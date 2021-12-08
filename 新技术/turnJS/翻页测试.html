@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>翻页测试</title>
+    <script src="./flip.js"></script>
+</head>
+<style>
+    #book{
+        margin: 240px;
+    }
+</style>
+<body>
+    <div id="book">
+
+    </div>
+    <script>
+    const pagesImg = [
+        'https://res1.eqh5.com/Fs9Ae0LNnk9Kst9f63sd9epgwg6D',
+        'https://res1.eqh5.com/Fi0fm0hSGL6lZ5CAPCpZbhRIrcBH',
+        'https://res1.eqh5.com/FuANuFG3lXx12uKOGweQMqccCJgn',
+        'https://res1.eqh5.com/FhJEWb_Jq7e4vaMUH5jQZdm6_xfZ',
+        'https://res1.eqh5.com/FpbwvcnO9fq5nkko0tBfVRTydmwD',
+        'https://res1.eqh5.com/FnVOTV_MTjJctRU2rJtGzRClcEfU',
+        'https://res1.eqh5.com/FjBQfXZvWT-0UG6P0AV1OMfayE3j',
+        'https://res1.eqh5.com/FkvzZecGZ6S83EyDetRZNB4AXv-G',
+        // 'https://res1.eqh5.com/FoqGcmatAtAa7W7iROWNiruv9Bak',
+    ]
+    Flip.init({
+        $el:document.getElementById('book'),
+        width: 640,
+        height: 504,
+        display:'double',
+        src:pagesImg,
+    })
+   
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    img{
+        width:1000px;
+        height:666px;
+    }
+    img {
+    position: relative;
+}
+
+img:after,img:before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    pointer-events: none
+}
+
+img img {
+    width: 100%;
+    z-index: 1
+}
+
+img:before {
+    z-index: 2
+}
+
+img:after {
+    z-index: 3
+}
+
+img::after {
+    background: #b77d21;
+    mix-blend-mode: overlay
+}
+
+img::before {
+    background: #382c34;
+    mix-blend-mode: color-dodge
+}
+</style>
+<body>
+    <img src="http://asset.eqh5.com/6fedab3fd5908f8b8f42f1aa3d7f7884?imageMogr2/auto-orient/quality/75/format/webp">
+</body>
+</html>

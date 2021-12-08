@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hello OpenCV.js</title>
+</head>
+<style>
+    
+</style>
+<body>
+<h2>Hello OpenCV.js</h2>
+<p id="status">OpenCV.js is loading...</p>
+<div class="box">
+  <div class="inputoutput">
+    <img id="imageSrc" alt="No Image" />
+    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput" ></canvas>
+    <div class="caption">canvasOutput</div>
+  </div>
+</div>
+<script type="text/javascript">
+    let imgElement = document.getElementById('imageSrc');
+    let inputElement = document.getElementById('fileInput');
+        inputElement.addEventListener('change', (e) => {
+        imgElement.src = URL.createObjectURL(e.target.files[0]);
+    }, false);
+    imgElement.onload = function() {
+        let src = cv.imread(imgElement);
+        let dst = new cv.Mat()
+        // 色域转换 比如转换为灰度等COLOR_RGBA2GRAY 
+        cv.cvtColor(src, dst, cv.COLOR_BGR2HSV_FULL   , 0);
+        cv.imshow('canvasOutput', dst);
+        src.delete();
+        dst.delete();
+
+        // let low = new cv.Mat(src.rows, src.cols, src.type(), [0, 0, 0, 0]);
+        // let high = new cv.Mat(src.rows, src.cols, src.type(), [80, 150, 30, 150]);
+        // // You can try more different parameters
+        // cv.inRange(src, low, high, dst);
+        // cv.imshow('canvasOutput', dst);
+        // src.delete(); dst.delete(); low.delete(); high.delete();
+    };
+    function onOpenCvReady() {
+        document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+    }
+</script>
+<script async src="opencv2.js" onload="onOpenCvReady();" type="text/javascript"></script>
+</body>
+</html>

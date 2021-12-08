@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box{
+        width: 360px;
+        height: 240px;
+        overflow:hidden;
+        position: relative;
+    }
+    img{
+        width: 360px;
+        height: 240px;
+    }
+    .box img:first-child{
+        position: absolute;
+        mix-blend-mode: difference;
+    }
+</style>
+<body>
+    <div class="box">
+        <img src="http://asset.eqh5.com/p2000/creative/fotomore/yuantu/128770000/isc128770092.jpg?imageMogr2/auto-orient/quality/75/format/webp" alt="">
+        <img src="http://asset.eqh5.com/store/c249a809718a4578b3c84da1d5ab0ca2.jpeg?imageMogr2/auto-orient/quality/75/format/webp" alt="">
+    </div>
+</body>
+</html>

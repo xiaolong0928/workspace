@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+.box{
+    width: 500px;
+    height: 333px;
+    margin-left: 300px;
+    position: relative;
+}
+.item{
+    position: relative;
+    width: 500px;
+    height: 333px;
+    background: chocolate;
+    transform: translateX(0) translateY(0) scale(1);
+    transform-origin: 85% 20%;
+    background:url('http://asset.eqh5.com/08002c719e8d28a6b2fa6c9bbfe3686b?imageMogr2/auto-orient') center/cover;
+}
+.bar{
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top:0;
+    left:0;
+}
+.bottom{
+    z-index: 10;
+    position:absolute;
+    left:0;
+    bottom: 20px;
+}
+</style>
+<body>
+    <div class="box">
+        <div class="item">
+            
+        </div>
+        <div class="bar"></div>
+        
+    </div>
+   <div class="bottom">
+    <div>
+        <span>中心点设置：</span>
+        <span>x:<input type="number" id="x"  step="0.1" value="56.2" oninput="refresh()"></span>
+        <span>y:<input type="number" id="y" step="0.1" value="38.4" oninput="refresh()"></span>
+    </div>
+    <div>
+        <span>倍数设置：</span>
+        <span><input type="number" id="b"  step="0.1" value="1" oninput="refresh()"></span>
+        <div>
+            位移距离：<span id="wx"></span> &nbsp;&nbsp;&nbsp; <span id="wy"></span>
+        </div>
+    </div>
+   </div>
+    <script>
+        function refresh(){
+            const x = document.getElementById('x').value
+            const y = document.getElementById('y').value
+            const b = document.getElementById('b').value
+
+            const barNode = document.querySelector('.bar')
+            const itemNode = document.querySelector('.item')
+
+            barNode.style.left = x+'%'
+            barNode.style.top = y+'%'
+
+            itemNode.style.transformOrigin = `${x}% ${y}%`
+            
+            // 计算位移距离
+            const disX = -5 * x * (b-1)/100
+            const disY = -5 * y * (b-1)/100
+            itemNode.style.transform = `translateX(${disX}px) translateY(${disY}px) scale(${b})`
+            document.getElementById('wx').innerHTML = disX
+            document.getElementById('wy').innerHTML = disY
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        background: #FFDCD6;
+    }
+    #box{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+</style>
+<body>
+    <div id="box"></div>
+    <script>
+        // svg 四种实现方式  一种全包裹  一种 错位阴影  一种模糊
+        const boxNode = document.getElementById('box')
+        /***
+         * 多层全包裹 案例
+         * <feMorphology in="SourceAlpha" result="res1" operator="dilate" radius="8"></feMorphology>
+                    <feFlood flood-color="#FFF254" result="res2"/>
+                    <feComposite in2="res1" operator="in" result="com1"/>
+                    <feMorphology in="SourceAlpha" result="res3" operator="dilate" radius="4"></feMorphology>
+                    <feFlood flood-color="#282828" result="res4"/>
+                    <feComposite in2="res3" operator="in" result="com2"/>
+                    <feMerge>
+                        <feMergeNode in="com1"/>
+                        <feMergeNode in="com2"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+         * */
+        /***
+         * 上下错位 左右错位 修改dx即可
+         *  <filter id="${randomId}"  x="-40" y="-40" width="320" height="220">
+                    <feoffset in="SourceAlpha" dx="0" dy="7" result="off1"/>
+                    <feMorphology in="off1" result="res1" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#36D127" result="res2"/>
+                    <feComposite in2="off1" operator="in" result="com1"/>
+                    <feoffset in="SourceAlpha" dx="0" dy="-7" result="off2"/>
+                    <feMorphology in="off2" result="res2" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#F51729" result="res3"/>
+                    <feComposite in2="off2" operator="in" result="com2"/>
+                    <feMerge>
+                        <feMergeNode in="com1"/>
+                        <feMergeNode in="com2"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+         */
+
+        function generateSVGNode(src,type){
+            const randomId = new Date().getTime()+Math.random()*1000
+            let shadow = ''
+            let filter = ''
+            if(type === 1){
+                // 右下模糊投影
+                shadow = "style='filter: drop-shadow(8px 8px 6px #666666);'"
+            } else if(type === 2){
+                // 右上单侧投影
+                filter = `
+                    <feoffset in="SourceAlpha" dx="7" dy="-7" result="off1"/>
+                    <feMorphology in="off1" result="res1" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#7DAB99" result="res2"/>
+                    <feComposite in2="off1" operator="in" result="com1"/>
+                `
+            } else if(type === 3){
+                // 左下右上 双侧投影
+                filter = `
+                <feoffset in="SourceAlpha" dx="7" dy="-7" result="off1"/>
+                    <feMorphology in="off1" result="res1" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#7E92AB" result="res2"/>
+                    <feComposite in2="off1" operator="in" result="com1"/>
+                    <feoffset in="SourceAlpha" dx="-7" dy="7" result="off2"/>
+                    <feMorphology in="off2" result="res2" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#EFC362" result="res3"/>
+                    <feComposite in2="off2" operator="in" result="com2"/>
+                `
+            } else if(type === 4){
+                // 左下 双侧投影
+                filter = `
+                <feoffset in="SourceAlpha" dx="-14" dy="14" result="off1"/>
+                    <feMorphology in="off1" result="res1" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#5B44FA" result="res2"/>
+                    <feComposite in2="off1" operator="in" result="com1"/>
+                    <feoffset in="SourceAlpha" dx="-7" dy="7" result="off2"/>
+                    <feMorphology in="off2" result="res2" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#FFFFFF" result="res3"/>
+                    <feComposite in2="off2" operator="in" result="com2"/>
+                `
+            } else if(type === 5){
+                // 双层全包裹+左下单侧阴影
+                filter = `
+                    <feoffset in="SourceAlpha" dx="-12" dy="12" result="off2"/>
+                    <feMorphology in="off2" result="res3" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#B14DFF" result="res5"/>
+                    <feComposite in2="off2" operator="in" result="com1"/>
+                    <feMorphology in="SourceAlpha" result="res1" operator="dilate" radius="5"></feMorphology>
+                    <feFlood flood-color="#282828" result="res2"/>
+                    <feComposite in2="res1" operator="in" result="com2"/>
+                    <feMorphology in="SourceAlpha" result="res3" operator="dilate" radius="3"></feMorphology>
+                    <feFlood flood-color="#FFF254" result="res4"/>
+                    <feComposite in2="res3" operator="in" result="com3"/>
+                `
+            } else if(type === 6){
+                // 四周模糊投影
+                shadow = "style='filter: drop-shadow(0px 0px 8px #FF7C79);'"
+            }else if(type === 7){
+                // 右上模糊投影
+                shadow = "style='filter: drop-shadow(8px -8px 8px #666666);'"
+            }else if(type === 8){
+                // 单层全包裹
+                filter = `
+                    <feoffset in="SourceAlpha" dx="0" dy="9" result="off2"/>
+                    <feMorphology in="off2" result="res3" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#2C4272" result="res5"/>
+                    <feComposite in2="off2" operator="in" result="com1"/>
+                    <feMorphology in="SourceAlpha" result="res1" operator="dilate" radius="5"></feMorphology>
+                    <feFlood flood-color="#EF750D" result="res2"/>
+                    <feComposite in2="res1" operator="in" result="com2"/>
+                    
+                `
+            } else if(type === 9){
+                // 单层全包裹+左下单侧阴影
+                filter = `
+                    <feoffset in="SourceAlpha" dx="-9" dy="9" result="off2"/>
+                    <feMorphology in="off2" result="res3" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#2C4272" result="res5"/>
+                    <feComposite in2="off2" operator="in" result="com1"/>
+                    <feMorphology in="SourceAlpha" result="res1" operator="dilate" radius="5"></feMorphology>
+                    <feFlood flood-color="#ffffff" result="res2"/>
+                    <feComposite in2="res1" operator="in" result="com2"/>
+                `
+            }else if(type === 10){
+                // 上下侧投影
+                filter = `
+                <feoffset in="SourceAlpha" dx="0" dy="-8" result="off1"/>
+                    <feMorphology in="off1" result="res1" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#36D127" result="res2"/>
+                    <feComposite in2="off1" operator="in" result="com1"/>
+                    <feoffset in="SourceAlpha" dx="0" dy="8" result="off2"/>
+                    <feMorphology in="off2" result="res2" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#F51729" result="res3"/>
+                    <feComposite in2="off2" operator="in" result="com2"/>
+                `
+            }else if(type === 11){
+                // 单层全包裹+上模糊
+                shadow = "style='filter: drop-shadow(0px -8px 8px #999999);'"
+                filter = `
+                    <feMorphology in="SourceAlpha" result="res1" operator="dilate" radius="5"></feMorphology>
+                    <feFlood flood-color="#ffffff" result="res2"/>
+                    <feComposite in2="res1" operator="in" result="com2"/>
+                `
+            }else if(type === 12){
+                // 右下单侧投影
+                filter = `
+                <feoffset in="SourceAlpha" dx="8" dy="8" result="off1"/>
+                    <feMorphology in="off1" result="res1" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#EFC362" result="res2"/>
+                    <feComposite in2="off1" operator="in" result="com1"/>
+                `
+            }else if(type === 13){
+                // 双层全包裹
+                filter = `
+                    <feMorphology in="SourceAlpha" result="res1" operator="dilate" radius="6"></feMorphology>
+                    <feFlood flood-color="#000000" result="res2"/>
+                    <feComposite in2="res1" operator="in" result="com1"/>
+                    <feMorphology in="SourceAlpha" result="res3" operator="dilate" radius="3"></feMorphology>
+                    <feFlood flood-color="#ffffff" result="res4"/>
+                    <feComposite in2="res3" operator="in" result="com2"/>
+                `
+            }else if(type === 14){
+                // 左上+右下 双侧投影
+                filter = `
+                <feoffset in="SourceAlpha" dx="-8" dy="-8" result="off1"/>
+                    <feMorphology in="off1" result="res1" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#F0B7B5" result="res2"/>
+                    <feComposite in2="off1" operator="in" result="com1"/>
+                    <feoffset in="SourceAlpha" dx="8" dy="8" result="off2"/>
+                    <feMorphology in="off2" result="res2" operator="dilate" radius="0"></feMorphology>
+                    <feFlood flood-color="#B5F1D7" result="res3"/>
+                    <feComposite in2="off2" operator="in" result="com2"/>
+                `
+            }
+            const svgNode = `
+            <svg width="300" height="200" viewBox="0 0 300 200" ${shadow}>
+                <filter id="${randomId}"  x="-40" y="-40" width="320" height="220">
+                    ${filter}
+                    <feMerge>
+                        
+                        <feMergeNode in="com1"/>
+                        <feMergeNode in="com2"/>
+                        <feMergeNode in="com3"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            <image xlink:href="${src}" width="85%" height="85%" x="10" y="10" filter="url(#${randomId})"></image>
+            </svg>
+            `
+            const wrapperNode = document.createElement('div')
+            wrapperNode.classList.add('wrapper')
+            wrapperNode.innerHTML = svgNode
+            boxNode.appendChild(wrapperNode)
+        }
+        // generateSVGNode('http://res1.eqh5.com/FuL9srLAsfEUZr8-qqs25JrPoznw?imageMogr2/auto-orient')
+        // generateSVGNode('http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient')
+        for(let i=1;i<=14;i++){
+            generateSVGNode('http://res1.eqh5.com/FuL9srLAsfEUZr8-qqs25JrPoznw?imageMogr2/auto-orient',i)
+            // generateSVGNode('http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient',i)
+        }
+    </script>
+</body>
+</html>

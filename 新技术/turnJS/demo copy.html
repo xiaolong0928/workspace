@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="http://lib.eqh5.com/jquery/2.2.4/jquery.min.js"></script>
+    <!-- <script src="./modernizr.2.5.3.min.js"></script> -->
+    <script src="./turn.js"></script>
+    <!-- <script src="./turn.html4.js"></script> -->
+    <!-- <script src="./scissor.js"></script> -->
+    <!-- <script src="./hash.js"></script> -->
+    <!-- <script src="./zoom.js"></script> -->
+    <!-- <script src="./magazine.js"></script> -->
+    <!-- <link rel="stylesheet" href="./magazine.css"> -->
+</head>
+<style>
+   .wrraper{
+       width: 100%;
+       height: 100%;
+       margin-left: 300px;
+       margin-top: 200px;
+   }
+   .even{
+	background:-webkit-gradient(linear, left top, right top, color-stop(0.95, #fff), color-stop(1, #dadada));
+	background-image:-webkit-linear-gradient(left, #fff 95%, #dadada 100%);
+	background-image:-moz-linear-gradient(left, #fff 95%, #dadada 100%);
+	background-image:-ms-linear-gradient(left, #fff 95%, #dadada 100%);
+	background-image:-o-linear-gradient(left, #fff 95%, #dadada 100%);
+	background-image:linear-gradient(left, #fff 95%, #dadada 100%);
+}
+
+ .odd{
+	background:-webkit-gradient(linear, right top, left top, color-stop(0.95, #fff), color-stop(1, #cacaca));
+	background-image:-webkit-linear-gradient(right, #fff 95%, #cacaca 100%);
+	background-image:-moz-linear-gradient(right, #fff 95%, #cacaca 100%);
+	background-image:-ms-linear-gradient(right, #fff 95%, #cacaca 100%);
+	background-image:-o-linear-gradient(right, #fff 95%, #cacaca 100%);
+	background-image:linear-gradient(right, #fff 95%, #cacaca 100%);
+}
+.odd .gradient{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: -webkit-gradient(linear, right top, left top, color-stop(0.95, rgba(0,0,0,0)), color-stop(1, rgba(0,0,0,0.15)));
+    background-image: -webkit-linear-gradient(right, rgba(0,0,0,0) 95%, rgba(0,0,0,0.15) 100%);
+    background-image: -moz-linear-gradient(right, rgba(0,0,0,0) 95%, rgba(0,0,0,0.15) 100%);
+    background-image: -ms-linear-gradient(right, rgba(0,0,0,0) 95%, rgba(0,0,0,0.15) 100%);
+    background-image: -o-linear-gradient(right, rgba(0,0,0,0) 95%, rgba(0,0,0,0.15) 100%);
+    background-image: linear-gradient(right, rgba(0,0,0,0) 95%, rgba(0,0,0,0.15) 100%);
+
+}
+.even .gradient{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: -webkit-gradient(linear, left top, right top, color-stop(0.95, rgba(0,0,0,0)), color-stop(1, rgba(0,0,0,0.2)));
+    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0) 95%, rgba(0,0,0,0.2) 100%);
+    background-image: -moz-linear-gradient(left, rgba(0,0,0,0) 95%, rgba(0,0,0,0.2) 100%);
+    background-image: -ms-linear-gradient(left, rgba(0,0,0,0) 95%, rgba(0,0,0,0.2) 100%);
+    background-image: -o-linear-gradient(left, rgba(0,0,0,0) 95%, rgba(0,0,0,0.2) 100%);
+    background-image: linear-gradient(left, rgba(0,0,0,0) 95%, rgba(0,0,0,0.2) 100%);
+}
+.page-content{
+    width: 100%;
+    height: 100%;
+}
+.thickness{
+    position: absolute;
+    height: 100%;
+    perspective: 500;
+    -webkit-perspective: 500;
+    -moz-perspective: 500;
+    -ms-perspective: 500;
+    cursor: pointer;
+}
+.thickness canvas{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15px;
+}
+.right-thickness{
+    left: 100%;
+}
+.p-temporal{
+     background: rgba(0,0,0,0.8);
+     background-size: cover;
+     background-repeat: no-repeat;
+     transform: rotateY(180deg);
+}
+</style>
+<body>
+    <div class="wrraper">
+        <div class="book">
+            <div ignore="1" class="thickness left-thickness">
+                <canvas id="left-thickness" width="5px" height="504px"></canvas>
+            </div>
+            <div ignore="1" class="thickness right-thickness">
+                <canvas id="right-thickness" width="5px" height="504px"></canvas>
+            </div>
+            
+            
+        </div>
+    </div>
+    <script>
+        $(window).ready(function() {
+            const pagesImg = [
+                'https://res1.eqh5.com/Fs9Ae0LNnk9Kst9f63sd9epgwg6D',
+                'https://res1.eqh5.com/Fi0fm0hSGL6lZ5CAPCpZbhRIrcBH',
+                'https://res1.eqh5.com/FuANuFG3lXx12uKOGweQMqccCJgn',
+                'https://res1.eqh5.com/FhJEWb_Jq7e4vaMUH5jQZdm6_xfZ',
+                'https://res1.eqh5.com/FpbwvcnO9fq5nkko0tBfVRTydmwD',
+                'https://res1.eqh5.com/FnVOTV_MTjJctRU2rJtGzRClcEfU',
+                'https://res1.eqh5.com/FjBQfXZvWT-0UG6P0AV1OMfayE3j',
+                'https://res1.eqh5.com/FkvzZecGZ6S83EyDetRZNB4AXv-G',
+                'https://res1.eqh5.com/FoqGcmatAtAa7W7iROWNiruv9Bak',
+                ]
+        function getPageDom(imgArr){
+            const pageDom = document.createElement('div')
+            $(dom).addClass('eqc-page')
+            element = $("<div />").html("Loading...")
+        }
+		$('.book').turn({
+            // 全局的宽高
+            width: 320,
+   			height: 504,
+   			autoCenter: false,
+            //  设置初始化页面
+            page :1,
+            // 是否开启硬件加速 处于mobile 一定要开启
+            acceleration:true,
+            // 书本翻动方向 "ltr"  "rtl"
+            // direction:'rtl',
+            // 书本翻动方向 是1页还是两页 single double
+            display: 'single',
+            // 翻页快慢  默认600
+            duration:'500',
+            // 设置翻页时是否显示翻页跟阴影
+            gradients: true,
+            elevation:50,
+            // 设置任意数量的页面
+            pages:9,
+            when: {
+                turned: function(e, page,view) {
+                    console.log('Current view: ', $(this).turn('view'));
+                    // if(page === 1){
+                    //     $(this).turn('peel', 'r')
+                    // }
+                    console.log($(this).turn('page'))
+                    $(this).turn('center')
+                    let index = $(this).turn('page')
+                    let tmpNode = document.querySelector('.p-temporal')
+                    tmpNode.style.backgroundImage = `url(${pagesImg[index-1]})`
+                },
+                missing: function (event, pages) {
+                    addPage($(this));
+                },
+                // turned: function(event, page, view) {
+                //     $(this).turn('center');
+                //     if (page==1) { 
+                //         // $(this).turn('peel', 'br');
+                //     }
+                // },
+                
+            }
+        });
+        function addPage(pageSelf){
+            for(let i=0;i<pagesImg.length;i++){
+                let imgSrc = pagesImg[i]
+                console.log(i,'    '+imgSrc)
+                const pageNode = $("<div class='eqc-page' />")
+                const gradientNode = $(`<div class='gradient'/>`)
+                const contentNode = $(`<div class="page-content" index='${i}'  style="background: url('${imgSrc}') center/cover no-repeat;"/>`)    
+                pageNode.append(gradientNode).append(contentNode)
+                pageSelf.turn('addPage',pageNode,i+1);
+            }
+        }
+    });
+    
+ 
+    // $('.book').bind('missing', function(event, pages){
+    //     for (var i = 0; i < pages.length; i++) {
+    //         console.log('xxxxx')
+    //         $(this).turn('addPage',$('<div />'), pages[i]); 
+    //     }
+    // });
+	$(window).bind('keydown', function(e){
+		if (e.keyCode==37)
+			$('.book').turn('previous');
+		else if (e.keyCode==39)
+			$('.book').turn('next');
+			
+	});
+    </script>
+</body>
+</html>

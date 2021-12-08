@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div{
+        margin: 30px auto;
+    }
+    .demo1{
+        width: 200px;
+        height: 100px;
+        position: relative;
+        border: 1px solid #03A9F3;
+    }
+    .demo1::before,
+    .demo1::after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        transition: 0.3s ease-in-out;
+    }
+    
+    .demo1::before {
+        top: -5px;
+        left: -5px;
+        border-top: 1px solid #03A9F3;
+        border-left: 1px solid #03A9F3;
+    }
+    
+    .demo1::after {
+        right: -5px;
+        bottom: -5px;
+        border-bottom: 1px solid #03A9F3;
+        border-right: 1px solid #03A9F3;
+    }
+    
+    .demo1:hover::before,
+    .demo1:hover::after {
+        width: calc(100% + 9px);
+        height: calc(100% + 9px);
+    }
+    .demo2{
+        width: 200px;
+        height: 100px;
+        
+        outline: 1px solid #333;
+        outline-offset: -1px;
+    }
+    .demo2:hover {
+        outline: none;
+        animation: linearGradientMove .3s infinite linear;
+        background: 
+            linear-gradient(90deg, #333 50%, transparent 0) repeat-x,
+            linear-gradient(90deg, #333 50%, transparent 0) repeat-x,
+            linear-gradient(0deg, #333 50%, transparent 0) repeat-y,
+            linear-gradient(0deg, #333 50%, transparent 0) repeat-y;
+        background-size: 4px 1px, 4px 1px, 1px 4px, 1px 4px;
+        background-position: 0 0, 0 100%, 0 0, 100% 0;
+    }
+
+    @keyframes linearGradientMove {
+        100% {
+            background-position: 4px 0, -4px 100%, 0 -4px, 100% 4px;
+        }
+    }
+</style>
+<body>
+    <!--  -->
+    <div class="demo1">
+
+    </div>
+    <!-- 虚线边框 -->
+    <div class="demo2"></div>
+</body>
+</html>

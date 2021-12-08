@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/stackBlur.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="300px" height="200px"></canvas>
+    <script>
+        // 企鹅图 http://res1.eqh5.com/FuL9srLAsfEUZr8-qqs25JrPoznw?imageMogr2/auto-orient
+        function loadImg(src){
+            const imgNode = new Image()
+            imgNode.crossOrigin = 'anonymous'
+            imgNode.src = src
+            return new Promise((resolve,reject)=>{
+                imgNode.onload = function(){
+                    resolve(imgNode)
+                }
+            })
+        }
+        function drawOuttline(){
+            var canvas = document.getElementById('canvas')
+            var ctx = canvas.getContext('2d');
+            loadImg('http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient').then(imgNode=>{
+                // 向左偏移5px 向上偏移5px
+                // let deviationX = -5
+                // let deviationY = -5
+                // 向右 向下偏移5px
+                // let deviationX = 5
+                // let deviationY = 5
+                // let scale = 1
+                // 全覆盖
+                let scale = 1.05
+                let deviationX = 300 * (scale-1)
+                let deviationY = 200 * (scale -1)
+                
+               
+                ctx.drawImage(imgNode, -deviationX/2,-deviationY/2, 300 + deviationX, 200 + deviationY);
+                
+                ctx.globalCompositeOperation = "source-in";
+                // ctx.shadowBlur = 6
+                ctx.fillStyle = "#FFDE00";
+                // var grd=ctx.createRadialGradient(150,100,25,150,100,300);
+                // grd.addColorStop(0,"white");
+                // grd.addColorStop(1,"#FF7C79");
+                // Fill with gradient
+                // ctx.fillStyle=grd;
+                ctx.fillRect(0, 0, 300, 200);
+
+                let imageData = ctx.getImageData(0,0,300,200)
+                imageData = StackBlur.imageDataRGBA(imageData, 0, 0, 300, 200, 20);
+                ctx.putImageData(imageData,0,0)
+
+                ctx.globalCompositeOperation = "source-over"
+                ctx.drawImage(imgNode, 0, 0, 300, 200);
+
+                // 设置阴影
+                // ctx.shadowColor = '#333'
+                // ctx.shadowOffsetX = 20
+                // ctx.shadowOffsetY = 20
+                // ctx.shadowBlur = 6
+                // ctx.fillRect(0,0,300,200)
+            })
+        }
+        drawOuttline()
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box{
+        display:flex;
+        flex-wrap: wrap;
+    }
+    img{
+        width: 300px;
+        height: 200px;
+        margin: 30px;
+        /* border-radius: 3px; */
+    }
+    .demo1{
+        /* 将h-shadow,v-shadow设为0px,实现四周阴影 */
+        box-shadow: 0px 0px 0px 5px #333;
+    }
+    .demo2{
+        /* 左边和上边阴影 */
+        box-shadow: -5px -5px 0px 5px #D08A64;
+    }
+    .demo3{
+        /* 三边阴影 */
+        box-shadow: 0 5px 5px 5px #000;
+    }
+    .demo4{
+        /* 右边和上边阴影 */
+        box-shadow: 10px -10px 0px 2px #7DAB99;
+    }
+    .demo5{
+        /* 多重阴影 */
+        box-shadow: 0px 0px 0px 5px #2BFFBE,
+                    0px 0px 0px 7px #25137F,
+                    0px 10px 0px 5px #FFEB01;
+    }
+    .demo6{
+        /* 四周模糊 */
+        box-shadow: 0px 0px 25px 2px #FF7C79;
+    }
+    .demo7{
+        /* 两重阴影 */
+        box-shadow: 3px -3px 0px 2px #fff,
+                    15px -13px 0px 2px #975F43;
+    }
+    .demo8{
+        /* 三重阴影 */
+        box-shadow: 0px 0px 0px 4px #FF50A1,
+                    0px 0px 0px 5px #25137F,
+                    10px 10px 0px 2px #2BFFBE;
+    }
+    .demo9{
+        /* 三重阴影 */
+        box-shadow: 15px 0px 20px 2px #666666;
+                   
+    }
+    .demo10{
+        /* 俩重左下阴影 */
+        box-shadow: -5px 5px 0px 2px #5B44FA,
+                    -10px 10px 0px 2px #fff;
+                   
+    }
+    .demo11{
+        /* 俩边阴影 */
+        box-shadow: -5px 0 0px 0px #36D127,
+                    5px 0 0px 0px #F51729;
+                   
+    }
+    .demo12{
+        /* 俩重全包围 */
+        box-shadow: 0px 0px 0px 4px #fff,
+                    0px 0px 0px 8px #111;
+                   
+    }
+    .demo13{
+        /* 全包围+模糊 */
+        box-shadow: 0px 0px 0px 4px #fff,
+                    0px 0px 20px 6px #666666;
+                   
+    }
+    .demo14{
+        /* 全包围+模糊 */
+        box-shadow: -5px 5px 0px 4px #7E92AB,
+                    5px -5px 0px 4px #EFC362;
+                   
+    }
+    .demo15{
+        /* 上下 */
+        box-shadow: 0px -5px 0px 0px #36D127,
+                    0px 5px 0px 0px #F51729;
+                   
+    }
+    .shadow {
+        position: relative;
+        box-shadow: 0px 1px 4px rgba(0,0,0,0.3),
+                    0px 0px 20px rgba(0,0,0,0.1) inset;
+    }
+
+    .shadow::before,
+    .shadow::after {
+    content:"";
+    position:absolute;
+    z-index:-1;
+    }
+
+    .shadow::before,
+    .shadow::after {
+    content:"";
+    position:absolute;
+    z-index:-1;
+    bottom:15px;
+    left:10px;
+    width:50%;
+    height:20%;
+    }
+
+    .shadow::before,
+    .shadow::after {
+    content:"";
+    position:absolute;
+    z-index:-1;
+    bottom:15px;
+    left:10px;
+    width:50%;
+    height:20%;
+    box-shadow:0 15px 10px rgba(0, 0, 0, 0.7);
+    transform:rotate(-3deg);
+    }
+
+    .shadow::after{
+    right:10px;
+    left:auto;
+    transform:rotate(3deg);
+    }
+</style> 
+<body>
+    <div class="box">
+        <img class="demo1" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo2" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo3" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo4" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo5" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        
+        <img class="demo6" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo7" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo8" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo9" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo10" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        
+        <img class="demo11" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo12" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo13" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo14" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo15" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+
+        <img class="demo16 shadow" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo17" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo18" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo19" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+        <img class="demo20" src="https://st0.dancf.com/gaoding-material/0/images/223463/20191107-203725-leuLE.jpg">
+    </div>
+</body>
+</html>

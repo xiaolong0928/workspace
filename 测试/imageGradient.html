@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .test{
+        position: relative;
+        margin: 200px;
+        width: 300px;
+        height: 400px;
+        background: cornflowerblue;
+    }
+    .gradient{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        overflow: hidden;
+        z-index: 1;
+        width: 300px;
+        height: 400px;
+        /* background-image: -webkit-gradient(linear, 100% 100%, 100% 100%, from(rgba(0, 0, 0, 0)), color-stop(0.8, rgba(0, 0, 0, 0.2)), to(rgba(255, 255, 255, 0.2))) */
+        background-image: linear-gradient(0deg, red 7%, black 8%, blue 9%);
+    }
+</style>
+<body>
+    <div class="test">
+        <div class="gradient">
+
+        </div>
+    </div>
+</body>
+</html>

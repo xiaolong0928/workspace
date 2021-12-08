@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box{
+        width: 450px;
+        height: 300px;
+        filter: contrast(20);
+        background: burlywood;
+        position: relative;
+    }
+    .item{
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        position: absolute;
+        filter: blur(5px);
+    }
+    .item1{
+        top:0;
+        left:0;
+        float: left;
+        background: black;
+        animation: right 12s infinite ease-in-out;
+    }
+    .item2{
+        top:0;
+        right:0;
+        float: right;
+        background: orangered;
+        animation: left 15s infinite ease-in-out;
+    }
+    @keyframes left {
+        0%{
+            margin-right:0
+        }
+        100%{
+            margin-right: 300px;
+        }
+    }
+    @keyframes right {
+        0%{
+            margin-left:0
+        }
+        100%{
+            margin-left: 300px;
+        }
+    }
+</style>
+<body>
+    <div class="box">
+        <div class="item item1"></div>
+        <div class="item item2"></div>
+    </div>
+</body>
+</html>

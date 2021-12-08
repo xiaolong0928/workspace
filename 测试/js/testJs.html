@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function findSquenceNum(arr){
+            let target = []
+            let first = arr[0]
+            let last = arr[0]
+            let j = 1
+            for(let i=1;i<arr.length;i++){
+                const val = arr[i]
+                if(first + j === val){
+                    last = val
+                    j++
+                } else {
+                    if(last !== first){
+                        target.push(first)
+                        target.push(last)
+                        first = val
+                        last = val
+                        j=1
+                    }
+                }
+            }
+            if(last !== first){
+                target.push(first)
+                target.push(last)
+            }
+            return target
+        }
+        function findSquenceSkipNum(arr){
+            let target = [arr[0]]
+            let final = arr[arr.length-1]
+            for(let i=1;i<arr.length;i++){
+                const current = arr[i]
+                const last = arr[i-1]
+                if(current-last !== 1){
+                    if(target.indexOf(last) < 0){
+                        target.push(last)
+                    }
+                    target.push(current)
+                }
+            }
+            if(target.indexOf(final) < 0){
+                target.push(final)
+            }
+            return target
+        }
+        console.log(findSquenceSkipNum([1,2,3,7,8,9]))
+        console.log(findSquenceSkipNum([1,2,3,7,8,9,34]))
+        console.log(findSquenceSkipNum([1,3,7,9]))
+    </script>
+</body>
+</html>

@@ -6,7 +6,7 @@
     <title>Document</title>
     <script type="text/javascript" src="http://lib.eqh5.com/jquery/2.2.4/jquery.min.js"></script>
     <!-- <script src="./modernizr.2.5.3.min.js"></script> -->
-    <script src="./turn.min.js"></script>
+    <script src="./turn-1.1.js"></script>
     <!-- <script src="./turn.html4.js"></script> -->
     <!-- <script src="./scissor.js"></script> -->
     <!-- <script src="./hash.js"></script> -->
@@ -15,9 +15,18 @@
     <!-- <link rel="stylesheet" href="./magazine.css"> -->
 </head>
 <style>
+    body{
+        background: blue;
+    }
    .wrraper{
        width: 100%;
-       height: 100%;
+       height: 900px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+   }
+   .book{
+        transition: all .3s;
    }
    .even{
 	background:-webkit-gradient(linear, left top, right top, color-stop(0.95, #fff), color-stop(1, #dadada));
@@ -95,33 +104,85 @@
             <div ignore="1" class="thickness right-thickness">
                 <canvas id="right-thickness" width="5px" height="504px"></canvas>
             </div>
-            
+            <!-- <div class="page">demo1</div>
+            <div class="page">demo2</div>
+            <div class="page">demo3</div>
+            <div class="page">demo4</div> -->
             
         </div>
     </div>
+    <button id="large">放大</button>
+    <button id="delete">删除</button>
+    <button id="next">下一页</button>
     <script>
+        let node = document.getElementById('large')
+        let deleteNode = document.getElementById('delete')
+        let book = document.getElementsByClassName('book')[0]
+        let next = document.getElementById('next')
+        next.addEventListener('click',()=>{
+            let index = $('.book').turn('page');
+            if(index <8){
+
+                $('.book').turn('page',index+1)
+            }
+        })
+
+
+
+        window.preview={}
+        window.preview.width = 320 
+        window.preview.height = 504 
+        deleteNode.addEventListener('click',()=>{
+            $('.book').turn('destroy');
+        })
+        node.addEventListener('click',()=>{
+            // book.style.transform = `scale(1.5)`
+            // window.preview.width = 320 * 1.5
+            // window.preview.height = 504 * 1.5
+            // $('.book').width(640*1.5)
+            // $('.book').height(504*1.5)
+            // $('.book').turn({
+            //     width: 640 * 1.5,
+   			//     height: 504 * 1.5,
+            // })
+            // let pagesNode = document.getElementsByClassName('eqc-page')
+            // $('.book').turn('updateSize', 640 * 1.5, 504 * 1.5);
+            $('.book').turn('zoom', 1.5);
+            setTimeout(()=>{
+                $('.book').turn('zoom', 1.5);
+            },1000)
+            // $('.book').turn('zoom', 1.5);
+        })
         $(window).ready(function() {
             const pagesImg = [
-                'https://res1.eqh5.com/Fs9Ae0LNnk9Kst9f63sd9epgwg6D',
-                'https://res1.eqh5.com/Fi0fm0hSGL6lZ5CAPCpZbhRIrcBH',
-                'https://res1.eqh5.com/FuANuFG3lXx12uKOGweQMqccCJgn',
-                'https://res1.eqh5.com/FhJEWb_Jq7e4vaMUH5jQZdm6_xfZ',
-                'https://res1.eqh5.com/FpbwvcnO9fq5nkko0tBfVRTydmwD',
-                'https://res1.eqh5.com/FnVOTV_MTjJctRU2rJtGzRClcEfU',
-                'https://res1.eqh5.com/FjBQfXZvWT-0UG6P0AV1OMfayE3j',
-                'https://res1.eqh5.com/FkvzZecGZ6S83EyDetRZNB4AXv-G',
-                'https://res1.eqh5.com/FoqGcmatAtAa7W7iROWNiruv9Bak',
-                ]
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/1.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/2.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/3.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/4.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/5.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/6.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/7.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/8.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/9.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/10.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/11.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/12.jpg?1614306839',
+            'https://book.yunzhan365.com/kykh/tppo/files/mobile/13.jpg?1614306839'
+        ]
         function getPageDom(imgArr){
             const pageDom = document.createElement('div')
             $(dom).addClass('eqc-page')
             element = $("<div />").html("Loading...")
         }
+        let type = 'double'
+        if($.isTouch){
+            type = 'single'
+        }
 		$('.book').turn({
             // 全局的宽高
-            width: 640,
-   			height: 504,
-   			autoCenter: false,
+            width: 608,
+   			height: 832,
+   			autoCenter: true,
             //  设置初始化页面
             page :1,
             // 是否开启硬件加速 处于mobile 一定要开启
@@ -129,22 +190,30 @@
             // 书本翻动方向 "ltr"  "rtl"
             // direction:'rtl',
             // 书本翻动方向 是1页还是两页 single double
-            display: 'double',
+            display: type,
             // 翻页快慢  默认600
             duration:'500',
             // 设置翻页时是否显示翻页跟阴影
             gradients: true,
             elevation:50,
             // 设置任意数量的页面
-            pages:9,
+            pages:8,
+            type:'mobile',
             when: {
+                click:function(){
+                    // console.log('click')
+                },
+                turning:function(){
+                    console.log('turning:',$(this).turn('page'))
+                },
                 turned: function(e, page,view) {
-                    console.log('Current view: ', $(this).turn('view'));
+                    // console.log('Current view: ', $(this).turn('view'));
                     // if(page === 1){
                     //     $(this).turn('peel', 'r')
                     // }
-                    console.log($(this).turn('page'))
-                    $(this).turn('center')
+                    // console.log('turned:',$(this).turn('page'))
+                    // $(this).turn('center')
+                    // $('.book').turn('peel', false);
                 },
                 missing: function (event, pages) {
                     addPage($(this));
@@ -158,11 +227,17 @@
                 
             }
         });
+        // $('.book').turn('peel', false);
         function addPage(pageSelf){
             for(let i=0;i<pagesImg.length;i++){
                 let imgSrc = pagesImg[i]
-                console.log(i,'    '+imgSrc)
-                const pageNode = $("<div class='eqc-page'/>")
+                let pageNode = null
+                if(i===0||i===8){
+                    pageNode = $("<div class='eqc-page'/>")
+                } else {
+                    pageNode = $("<div class='eqc-page'/>")
+                }
+                 
                 const gradientNode = $(`<div class='gradient'/>`)
                 const contentNode = $(`<div class="page-content" index='${i}'  style="background: url('${imgSrc}') center/cover no-repeat;"/>`)    
                 pageNode.append(gradientNode).append(contentNode)
@@ -171,7 +246,10 @@
         }
     });
     
- 
+    // setTimeout(()=>{
+    //     $('.book').turn('page',3)
+    // },4000)
+
     // $('.book').bind('missing', function(event, pages){
     //     for (var i = 0; i < pages.length; i++) {
     //         console.log('xxxxx')
@@ -184,7 +262,84 @@
 		else if (e.keyCode==39)
 			$('.book').turn('next');
 			
-	});
+    });
+    
+    // var startx, starty;
+    // //获得角度
+    // function getAngle(angx, angy) {
+    //     return Math.atan2(angy, angx) * 180 / Math.PI;
+    // };
+ 
+    // //根据起点终点返回方向 1向上 2向下 3向左 4向右 0未滑动
+    // function getDirection(startx, starty, endx, endy) {
+    //     var angx = endx - startx;
+    //     var angy = endy - starty;
+    //     var result = 0;
+ 
+    //     //如果滑动距离太短
+    //     if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
+    //         return result;
+    //     }
+ 
+    //     var angle = getAngle(angx, angy);
+    //     if (angle >= -135 && angle <= -45) {
+    //         result = 1;
+    //     } else if (angle > 45 && angle < 135) {
+    //         result = 2;
+    //     } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+    //         result = 3;
+    //     } else if (angle >= -45 && angle <= 45) {
+    //         result = 4;
+    //     }
+ 
+    //     return result;
+    // }
+    // //手指接触屏幕
+    // document.addEventListener("touchstart", function(e) {
+    //     startx = e.touches[0].pageX;
+    //     starty = e.touches[0].pageY;
+    // }, false);
+    // //手指离开屏幕
+    // document.addEventListener("touchend", function(e) {
+    //     var endx, endy;
+    //     endx = e.changedTouches[0].pageX;
+    //     endy = e.changedTouches[0].pageY;
+    //     var direction = getDirection(startx, starty, endx, endy);
+    //     let index = $('.book').turn('page')
+    //     switch (direction) {
+    //         case 0:
+    //             // alert("未滑动！");
+    //             break;
+    //         case 1:
+    //             // alert("向上！")
+    //             break;
+    //         case 2:
+    //             // alert("向下！")
+    //             break;
+    //         case 3:
+    //             // alert("向左！")
+    //             if(index < 8){
+    //                 $('.book').turn('page', index+1)
+    //             }
+    //             break;
+    //         case 4:
+    //             if(index > 1){
+    //                 $('.book').turn('page', index-1)
+    //             }
+    //             break;
+    //         default:
+    //     }
+    // }, false);
+
+    /***
+     * 实现功能：屏蔽单击翻页功能，实现左滑右滑翻页功能
+     * 遗留问题：
+     *  单击翻页如果把代码屏蔽了之后 左滑和右滑 都会往下翻 不能往上翻
+     * 
+     **/
+    document.body.addEventListener('touchstart',function(){
+        // console.log('asdasdas')
+    })
     </script>
 </body>
 </html>

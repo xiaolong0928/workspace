@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="180">
+        <filter id="erode">
+          <feMorphology operator="erode" radius="1"/>
+        </filter>
+        <filter id="dilate">
+          <feMorphology operator="dilate" radius="2"/>
+        </filter>
+        <text y="1em">Normal text</text>
+        <text id="thin" y="2em" filter="url(#erode)">Thinned text</text>
+        <text id="thick" y="3em" filter="url(#dilate)">Fattened text</text>
+      </svg>
+</body>
+</html>

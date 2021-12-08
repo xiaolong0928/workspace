@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/MarchingSquares.js"></script>
+    <script src="./js/hidpi-canvas.js"></script>
+</head>
+<style>
+    .box{
+        display:flex;
+        flex-wrap: wrap;
+    }
+   canvas{
+       margin: 30px;
+   }
+    
+</style> 
+<body>
+    <div class="box">
+        <canvas id="canvas" width="300px" height="200px"></canvas>
+        <canvas id="canvas2" width="300px" height="200px"></canvas>
+        <canvas id="canvas3" width="300px" height="200px"></canvas>
+        <canvas id="canvas4" width="300px" height="200px"></canvas>
+        <!-- <img class="demo1" src="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient"> -->
+        
+    </div>
+    <script>
+        // 企鹅图 http://res1.eqh5.com/FuL9srLAsfEUZr8-qqs25JrPoznw?imageMogr2/auto-orient
+        function loadImg(src){
+            const imgNode = new Image()
+            imgNode.crossOrigin = 'anonymous'
+            imgNode.src = src
+            return new Promise((resolve,reject)=>{
+                imgNode.onload = function(){
+                    resolve(imgNode)
+                }
+            })
+        }
+        function drawOuttline1(src,node){
+            var ctx = node.getContext('2d');
+            loadImg(src).then(imgNode=>{
+                ctx.drawImage(imgNode, 0, 0, 300, 200);
+                var pathPoints = MarchingSquares.getBlobOutlinePoints(node);
+                var points = [];
+                for(var i = 0;i < pathPoints.length;i += 2){
+                    points.push({
+                        x:pathPoints[i],
+                        y:pathPoints[i + 1],
+                    })
+                }
+
+                console.log(points)
+                ctx.imageSmoothingEnabled = true;
+                ctx.beginPath();
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = '#00CCFF';
+                ctx.moveTo(points[0].x, points[0].y);
+                for (var i = 2; i < points.length; i += 1) {
+                    var lastPoint = points[i-1]
+                    var point = points[i];
+                    ctx.lineTo(point.x,point.y);
+                    // ctx.quadraticCurveTo(lastPoint.x,lastPoint.y,point.x,point.y)
+                }
+                ctx.closePath();
+                ctx.stroke();
+                
+                ctx.globalCompositeOperation = "source-atop";
+                
+            })
+        }
+
+        function drawOuttline2(src){
+            var canvas = document.getElementById('canvas2')
+            var ctx = canvas.getContext('2d');
+            loadImg('http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient').then(imgNode=>{
+                // 向左偏移5px 向上偏移5px
+                // let deviationX = -5
+                // let deviationY = -5
+                // 向右 向下偏移5px
+                // let deviationX = 5
+                // let deviationY = 5
+                // let scale = 1
+                // 全覆盖
+                let scale = 1.1
+                let deviationX = 300 * (scale-1)
+                let deviationY = 200 * (scale -1)
+                
+                
+                ctx.drawImage(imgNode, -deviationX/2,-deviationY/2, 300 + deviationX, 200 + deviationY);
+                
+                ctx.globalCompositeOperation = "source-in";
+                ctx.fillStyle = "#FF0000";
+                ctx.fillRect(0, 0, 300, 200);
+
+                 scale = 2
+                 deviationX = 300 * (scale-1)
+                 deviationY = 200 * (scale -1)
+                ctx.drawImage(imgNode, -deviationX/2,-deviationY/2, 300 + deviationX, 200 + deviationY);
+                ctx.globalCompositeOperation = "source-in";
+                ctx.fillStyle = "#111111";
+                ctx.fillRect(0, 0, 300, 200);
+                
+                ctx.globalCompositeOperation = "source-in";
+                ctx.fillStyle = "#FF0000";
+                ctx.fillRect(0, 0, 300, 200);
+
+                ctx.globalCompositeOperation = "source-over"
+                ctx.drawImage(imgNode, 0, 0, 300, 200);
+
+            })
+        }
+        function drawOuttline3(src){
+            var canvas = document.getElementById('canvas3')
+            var ctx = canvas.getContext('2d');
+            loadImg('http://res1.eqh5.com/FuL9srLAsfEUZr8-qqs25JrPoznw?imageMogr2/auto-orient').then(imgNode=>{
+                // 向左偏移5px 向上偏移5px
+                // let deviationX = -5
+                // let deviationY = -5
+                // 向右 向下偏移5px
+                // let deviationX = 5
+                // let deviationY = 5
+                // let scale = 1
+                // 全覆盖
+                let deviationX = 15
+                let deviationY = 15
+                ctx.drawImage(imgNode, -deviationX, -deviationY, 300 + 2 * deviationX, 200 + 2 * deviationY);
+                // ctx.drawImage(
+                //     imgNode, //规定要使用的图像、画布或视频。
+                //     0, 0, //开始剪切的 x 坐标位置。
+                //     300, 200,  //被剪切图像的高度。
+                //     0, 0,//在画布上放置图像的 x 、y坐标位置。
+                //     300*0.98 , 200 * 0.98  //要使用的图像的宽度、高度
+                // )
+                ctx.globalCompositeOperation = "source-in";
+                ctx.fillStyle = "#ff0000";
+
+                // deviationX = 5
+                // deviationY = 5
+                // ctx.drawImage(imgNode, -deviationX, -deviationY, 300 + 2 * deviationX, 200 + 2 * deviationY);
+                // ctx.globalCompositeOperation = "source-in";
+                // ctx.fillStyle = "#111111";
+
+                ctx.fillRect(0, 0, 300, 200);
+                ctx.globalCompositeOperation = "source-over"
+                ctx.drawImage(imgNode, 0, 0, 300, 200);
+            })
+        }
+
+        drawOuttline1('http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient',document.getElementById('canvas'))
+        // drawOuttline1('http://res1.eqh5.com/FuL9srLAsfEUZr8-qqs25JrPoznw?imageMogr2/auto-orient',document.getElementById('canvas4'))
+        // drawOuttline2()
+        // drawOuttline3()
+    </script>
+</body>
+</html>

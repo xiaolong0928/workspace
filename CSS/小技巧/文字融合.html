@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .flex-center{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .box{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        text-transform: capitalize;
+        filter: contrast(20);
+        
+        background: black;
+        color: white;
+    }
+    h1{
+        position: absolute;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        font-size: 80px;
+        text-align: center;
+        letter-spacing: -16px;
+        animation: move 8s ease-in-out infinite;
+        opacity: 0%;
+        white-space:nowrap
+    }
+    @keyframes move {
+        0%{
+            letter-spacing: -16px;
+            filter: blur(30px);
+            opacity: 48%;
+        }
+        12.5%{
+            letter-spacing: 0;
+            filter: blur(0px);
+            opacity: 100%;
+        }
+        25%{
+            letter-spacing: -16px;
+            filter: blur(30px);
+            opacity: 48%;
+        }
+    }
+    .word1{
+        animation-delay: 2s;
+    }
+    .word2{
+        animation-delay: 4s;
+    }
+    .word3{
+        animation-delay: 6s;
+    }
+</style>
+<body>
+    <div class="box">
+        <h1 class="flex-center">you are my sunshine</h1>
+        <h1 class="flex-center word1">always glory!</h1>
+        <h1 class="flex-center word2">just do it</h1>
+        <h1 class="flex-center word3">no one can do it</h1>
+    </div>
+</body>
+</html>

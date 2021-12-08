@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        集成：
+
+        该滤镜执行两个输入图像的智能像素组合，在图像空间中使用以下Porter-Duff合成操作之一：over、in、atop、xor。另外，还可以应用一个智能组件arithmetic操作（结果被压到[0,1]范围内）。
+
+        该arithmetic操作对组合来自<feDiffuseLighting>滤镜和来自<feSpecularLighting> 滤镜的输出以及组合纹理数据很有用
+
+
+     -->
+    <svg width="100%" height="1000px" >
+        <filter id="com1">
+            <feflood result="floodFill"  flood-color="green" flood-opacity="0.9"/>
+            <fecomposite in="SourceGraphic" in2="floodFill" operator="over"/>
+        </filter>
+        <filter id="com2">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <fecomposite in="SourceGraphic" in2="floodFill" operator="in"/>
+        </filter>
+        <filter id="com3">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <fecomposite in="SourceGraphic" in2="floodFill" operator="out"/>
+        </filter>
+        <filter id="com4">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <fecomposite in="SourceGraphic" in2="floodFill" operator="atop"/>
+        </filter>
+        <filter id="com5">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <fecomposite in="SourceGraphic" in2="floodFill" operator="xor"/>
+        </filter>
+        <filter id="com6">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <fecomposite in="SourceGraphic" in2="floodFill" operator="lighter"/>
+        </filter>
+        <filter id="com7">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <fecomposite in="SourceGraphic" in2="floodFill" operator="arithmetic"/>
+        </filter>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" filter="url(#com1)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="400px" y="0" filter="url(#com2)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="800px" y="0" filter="url(#com3)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="0px" y="300px" filter="url(#com4)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="400px" y="300px" filter="url(#com5)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="800px" y="300px" filter="url(#com6)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="0px" y="600px" filter="url(#com7)"></image>
+    </svg>
+</body>
+</html>

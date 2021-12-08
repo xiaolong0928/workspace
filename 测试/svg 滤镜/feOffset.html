@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        #feOffset（位移）
+        <filter>标签的（x，y）分别是需要位移的起始位置
+        <feOffset> 中真正被移动的图像是（x，y）到（width-x-dx，height-y-dy）的矩形区域
+        （dx，dy）分别是相对原始图像向右和向下的位移
+
+     -->
+    <svg width="100%" height="1000px" >
+        <filter id="blur1" x="0" y="0" >
+            <feoffset in="res2" dx="0" dy="5" result="off1"/>
+            <femorphology in="off1" result="res1" operator="dilate" radius="4"></femorphology>
+            <feflood flood-color="#FFF254" result="res2"/>
+            <fecomposite in2="res1" operator="in" result="com1"/>
+            <femerge>
+                <femergenode in="com1"/>
+                <femergenode in="SourceGraphic"/>
+            </femerge>
+        </filter>
+        <filter id="blur2">
+            <feoffset in="SourceGraphic" dx="40" dy="0"/>
+        </filter>
+        <filter id="blur3">
+            <feoffset in="SourceGraphic" dx="0" dy="50"/>
+        </filter>
+        <filter id="blur4">
+            <feoffset in="SourceGraphic" dx="40" dy="50"/>
+        </filter>
+        <filter id="blur5" x="-10%" y="-10%" width="100%" height="150%">
+            <feoffset in="SourceGraphic" dx="0" dy="0"/>
+        </filter>
+        <filter id="blur6">
+            <feoffset in="SourceGraphic" dx="0" dy="0"/>
+        </filter>
+        
+        
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" filter="url(#blur1)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="400px" y="0" filter="url(#blur2)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="800px" y="0" filter="url(#blur3)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="0px" y="300px" filter="url(#blur4)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="400px" y="300px" filter="url(#blur5)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="800px" y="300px" filter="url(#blur6)"></image>
+    </svg>
+</body>
+</html>

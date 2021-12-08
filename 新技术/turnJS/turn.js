@@ -24,7 +24,6 @@ var has3d,
   A90 = PI/2,
 
   isTouch = 'ontouchstart' in window,
-
   mouseEvents = (isTouch) ?
     {
       down: 'touchstart',
@@ -91,7 +90,9 @@ var has3d,
 
     // Events
 
-    when: null
+    when: null,
+    // 适用类型 看看是pc 还是mobile
+    type:'pc'
   },
 
   flipOptions = {
@@ -105,7 +106,6 @@ var has3d,
   // Number of pages in the DOM, minimum value: 6
 
   pagesInDOM = 6,
-  
 
 turnMethods = {
 
@@ -202,12 +202,90 @@ turnMethods = {
     // This flipbook is ready
 
     data.done = true;
+    if(options.type === 'mobile'){
+      this.turn('initTouch',this);
+    }
 
     return this;
   },
-
+  initTouch:function(self){
+    var startx = 0, starty = 0;
+    //获得角度
+    function getAngle(angx, angy) {
+        return Math.atan2(angy, angx) * 180 / Math.PI;
+    };
+ 
+    //根据起点终点返回方向 1向上 2向下 3向左 4向右 0未滑动
+    function getDirection(startx, starty, endx, endy) {
+        var angx = endx - startx;
+        var angy = endy - starty;
+        var result = 0;
+ 
+        //如果滑动距离太短
+        if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
+            return result;
+        }
+ 
+        var angle = getAngle(angx, angy);
+        if (angle >= -135 && angle <= -45) {
+            result = 1;
+        } else if (angle > 45 && angle < 135) {
+            result = 2;
+        } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+            result = 3;
+        } else if (angle >= -45 && angle <= 45) {
+            result = 4;
+        }
+ 
+        return result;
+    }
+    //手指接触屏幕
+    self[0].addEventListener("touchstart", function(e) {
+      if (e.touches.length === 1) {
+        startx = e.touches[0].pageX
+        starty = e.touches[0].pageY
+      } else {
+        startx = 0
+        starty = 0
+      }
+    }, false);
+    //手指离开屏幕
+    self[0].addEventListener("touchend", function(e) {
+        var endx, endy;
+        if(startx !== 0 && starty !==0){
+          endx = e.changedTouches[0].pageX;
+          endy = e.changedTouches[0].pageY;
+          var direction = getDirection(startx, starty, endx, endy);
+          var totalPage = self.turn('pages')
+          var index = self.turn('page')
+          switch (direction) {
+              case 0:
+                  // 未滑动
+                  break;
+              case 1:
+                  // 向上
+                  break;
+              case 2:
+                  // 向下
+                  break;
+              case 3:
+                  // 向左
+                  if(index < totalPage){
+                    self.turn('page', index+1)
+                  }
+                  break;
+              case 4:
+                  // 向右
+                  if(index > 1){
+                    self.turn('page', index-1)
+                  }
+                  break;
+              default:
+          }
+        }
+    }, false);
+  },
   // Adds a page from external data
-
   addPage: function(element, page) {
 
     var currentPage,
@@ -962,7 +1040,9 @@ turnMethods = {
     }
 
   },
-
+  updateSize(width,height){
+    this.css({width: width, height: height});
+  },
   // Gets and sets the size
 
   size: function(width, height) {
@@ -1466,7 +1546,6 @@ turnMethods = {
       data = that.data().f,
       turn = opts.turn,
       dd = turn.data();
-
     if (turned) {
 
       var tpage = dd.tpage || dd.page;
@@ -1551,8 +1630,11 @@ turnMethods = {
   },
 
  //
-  _touchStart: function() {
+  _touchStart: function(e) {
     var data = this.data();
+    if(data.opts.type === 'mobile'){
+      return
+    }
     for (var page in data.pages) {
       if (has(page, data.pages) &&
         flipMethods._eventStart.apply(data.pages[page], arguments)===false) {
@@ -1566,7 +1648,7 @@ turnMethods = {
     var data = this.data();
     for (var page in data.pages) {
       if (has(page, data.pages)) {
-        flipMethods._eventMove.apply(data.pages[page], arguments);
+        flipMethods._eventMove.apply(data.pages[page], [arguments[0],data.opts.type]);
       }
     }
   },
@@ -1574,6 +1656,9 @@ turnMethods = {
   //
   _touchEnd: function() {
     var data = this.data();
+    if(data.opts.type === 'mobile'){
+      return
+    }
     for (var page in data.pages) {
       if (has(page, data.pages)) {
         flipMethods._eventEnd.apply(data.pages[page], arguments);
@@ -1968,11 +2053,11 @@ flipMethods = {
 
   _cornerActivated: function(p) {
 
-    var data = this.data().f,
-      width = this.width(),
-      height = this.height(),
-      point = {x: p.x, y: p.y, corner: ''},
-      csz = data.opts.cornerSize;
+    var data = this.data().f;
+    var width = this.width();
+    var height = this.height();
+    var point = {x: p.x, y: p.y, corner: ''};
+    var csz = data.opts.cornerSize;
     var className = this[0].className;
     var display = data.opts.turn.data()
     // 判断是奇数页 还是偶数页
@@ -2334,7 +2419,6 @@ flipMethods = {
           'translate3d(0px, 0px, '+(this.attr('depth')||0)+'px)', parentOrigin);
 
         data.fpage.transform('translateX('+width+'px) rotateY('+(180+angle)+'deg)', fpageOrigin);
-
         data.parent.css(parentCss);
 
         if (half) {
@@ -2898,14 +2982,13 @@ flipMethods = {
 
   },
 
-  _eventMove: function(e) {
+  _eventMove: function(e,type) {
 
     var data = this.data().f;
-
     if (!data.disabled) {
 
       e = (isTouch) ? e.originalEvent.touches : [e];
-
+      // 鼠标拖动的折角
       if (data.corner) {
 
         var pos = data.parent.offset();
@@ -2916,24 +2999,33 @@ flipMethods = {
       } else if (data.hover && !this.data().effect && this.is(':visible')) {
 
         var point = flipMethods._isIArea.call(this, e[0]);
-
         if (point) {
-
+          // 打开折角
           if ((data.effect=='sheet' && point.corner.length==2)  || data.effect=='hard') {
-            data.status = 'hover';
-            var origin = flipMethods._c.call(this, point.corner, data.opts.cornerSize/2);
-            point.x = origin.x;
-            point.y = origin.y;
-            flipMethods._showFoldedPage.call(this, point, true);
+            // 关闭折角
+            if(type === 'mobile'){
+              data.status = '';
+              flipMethods.hideFoldedPage.call(this, true);
+            } else {
+              if (data.status=='hover') {
+                data.status = '';
+                flipMethods.hideFoldedPage.call(this, true);
+              } else {
+                data.status = 'hover';
+                var origin = flipMethods._c.call(this, point.corner, data.opts.cornerSize/2);
+                point.x = origin.x;
+                point.y = origin.y;
+                flipMethods._showFoldedPage.call(this, point, true);
+              }
+            }
+            
           }
-        
         } else {
-          
+          // 关闭折角
           if (data.status=='hover') {
             data.status = '';
             flipMethods.hideFoldedPage.call(this, true);
           }
-
         }
 
       }

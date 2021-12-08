@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div{
+        width: 100px;
+        height: 100px;
+        background: gray;
+    }
+</style>
+<body>
+    <div id="test"></div>
+    <script>
+        let node = document.getElementById('test')
+        node.addEventListener('touchstart',e=>{
+            console.log('touchstart')
+            document.touchmove = function(e){
+                console.log('move',e)
+            }
+            document.addEventListener('touchmove',e=>{
+                console.log('touchmove',e.targetTouches[0].pageX,e.targetTouches[0].pageY)
+            })
+            document.touchend = function(){
+                console.log('end')
+                document.onmousemove = null;
+				document.onmouseup = null;
+            }
+        })
+        // node.onmousedown = function(){
+        //     document.onmousemove = function(){
+        //         console.log('2222222222')
+        //     }
+        //     document.onmouseup = function(){
+        //         document.onmousemove = null;
+		// 		document.onmouseup = null;
+        //     }
+        // }
+
+		// node.onmousedown  = function(e){
+		// 	var ev = e || window.event;  //兼容ie浏览器
+		// 	//鼠标点击物体那一刻相对于物体左侧边框的距离=点击时的位置相对于浏览器最左边的距离-物体左边框相对于浏览器最左边的距离  
+		// 	// var distanceX = ev.clientX - div.offsetLeft;
+		// 	// var distanceY = ev.clientY - div.offsetTop;
+		// 	document.onmousemove = function(e){
+		// 		// var ev = e || window.event;  //兼容ie浏览器  
+		// 		// node.style.left = ev.clientX - distanceX + 'px';
+		// 		// node.style.top = ev.clientY - distanceY + 'px'; 
+        //         console.log('ssssssssss')
+		// 	};
+		// 	document.onmouseup = function(){
+		// 		document.onmousemove = null;
+		// 		document.onmouseup = null;
+		// 	};
+		// };
+    </script>
+</body>
+</html>

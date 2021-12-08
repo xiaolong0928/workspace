@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    div{
+        width: 400px;
+        height: 400px;
+        background: gold;
+    }
+</style>
+<div id="test">
+
+</div>
+<body>
+    <script>
+        let node = document.getElementById('test')
+        node.addEventListener('touchstart',function(e){
+            let len = e.touches.length
+            if(len.length >=2){
+                console.log('双指')
+            } else {
+                console.log('单指。。。')
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        #feSpecularLighting SVG过滤器原语使用alpha通道作为凹凸贴图来照亮源图形。
+        in:它标识给定过滤器原语的输入。
+        surfaceScale:它代表滤光器基元的表面高度。
+        specularConstant:它控制镜面照明的反射率。
+        specularExponent:它控制光源的焦点。
+        kernelUnitLength:根据使用的上下文，它有两种含义。对于照明滤镜基元，它指示x和y坐标的预期距离，对于<feConvolveMatrix>，它指示内核矩阵中连续列和行之间的预期距离。
+
+     -->
+    <svg width="100%" height="1000px" >
+        <filter id="blur1" x="0" y="0" >
+            <feoffset in="SourceGraphic" dx="0" dy="0"/>
+        </filter>
+        <filter id="blur2">
+            <feoffset in="SourceGraphic" dx="40" dy="0"/>
+        </filter>
+        <filter id="blur3">
+            <feoffset in="SourceGraphic" dx="0" dy="50"/>
+        </filter>
+        <filter id="blur4">
+            <feoffset in="SourceGraphic" dx="40" dy="50"/>
+        </filter>
+        <filter id="blur5" x="-10%" y="-10%" width="100%" height="150%">
+            <feoffset in="SourceGraphic" dx="0" dy="0"/>
+        </filter>
+        <filter id="blur6">
+            <feoffset in="SourceGraphic" dx="0" dy="0"/>
+        </filter>
+        
+        
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" filter="url(#blur1)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="400px" y="0" filter="url(#blur2)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="800px" y="0" filter="url(#blur3)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="0px" y="300px" filter="url(#blur4)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="400px" y="300px" filter="url(#blur5)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="800px" y="300px" filter="url(#blur6)"></image>
+    </svg>
+</body>
+</html>

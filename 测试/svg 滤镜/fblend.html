@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+
+        SVG滤镜原语<feBlend>通过一个确定的混合模式将两个对象组合到一起。它有点像我们平常使用的图片编辑器中的合并两个图层。混合模式由mode属性定义。
+
+        in、in2 标识为给定的滤镜原始输入：SourceGraphic | SourceAlpha | BackgroundImage | BackgroundAlpha | FillPaint | StrokePaint | 
+            <filter-primitive-reference>（注意：in在上层，in2在下层）
+        mode 混合模式：normal | multiply | screen | darken | lighten
+
+
+     -->
+    <svg width="100%" height="1000px" >
+        <filter id="feBlend1">
+            <feflood result="floodFill"  flood-color="green" flood-opacity="0.9"/>
+            <feblend in="SourceGraphic" in2="floodFill" mode="normal"/>
+        </filter>
+        <filter id="feBlend2">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <feblend in="floodFill" in2="SourceGraphic" mode="normal"/>
+        </filter>
+        <filter id="feBlend3">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <feblend in="floodFill" in2="SourceGraphic" mode="multiply"/>
+        </filter>
+        <filter id="feBlend4">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <feblend in="floodFill" in2="SourceGraphic" mode="screen"/>
+        </filter>
+        <filter id="feBlend5">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <feblend in="floodFill" in2="SourceGraphic" mode="darken"/>
+        </filter>
+        <filter id="feBlend6">
+            <feflood result="floodFill" flood-color="green" flood-opacity="0.9"/>
+            <feblend in="floodFill" in2="SourceGraphic" mode="lighten"/>
+        </filter>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" filter="url(#feBlend1)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="400px" y="0" filter="url(#feBlend2)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="800px" y="0" filter="url(#feBlend3)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="0px" y="300px" filter="url(#feBlend4)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="400px" y="300px" filter="url(#feBlend5)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="800px" y="300px" filter="url(#feBlend6)"></image>
+    </svg>
+</body>
+</html>

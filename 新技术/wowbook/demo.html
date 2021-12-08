@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="./js/wow_book.js"></script>
+    <link rel="stylesheet" href="./css/wow_book.css">
+</head>
+<style>
+    #book{
+        width: 640px;
+        height: 504px;
+    }
+    .eqc-page img{
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<body>
+    <div id="book">
+        <div class="eqc-page" style="background:url('https://res1.eqh5.com/Fs9Ae0LNnk9Kst9f63sd9epgwg6D') center/cover no-repeat"> </div>
+        <div class="eqc-page" style="background:url('https://res1.eqh5.com/FuANuFG3lXx12uKOGweQMqccCJgn') center/cover no-repeat"> </div>
+        <div class="eqc-page" style="background:url('https://res1.eqh5.com/FhJEWb_Jq7e4vaMUH5jQZdm6_xfZ') center/cover no-repeat"> </div>
+        <div class="eqc-page" style="background:url('https://res1.eqh5.com/FpbwvcnO9fq5nkko0tBfVRTydmwD') center/cover no-repeat"> </div>
+        <div class="eqc-page" style="background:url('https://res1.eqh5.com/FnVOTV_MTjJctRU2rJtGzRClcEfU') center/cover no-repeat"> </div>
+        <div class="eqc-page" style="background:url('https://res1.eqh5.com/Fs9Ae0LNnk9Kst9f63sd9epgwg6D') center/cover no-repeat"> </div>
+        <div class="eqc-page" style="background:url('https://res1.eqh5.com/FjBQfXZvWT-0UG6P0AV1OMfayE3j') center/cover no-repeat"> </div>
+        <div class="eqc-page" style="background:url('https://res1.eqh5.com/FkvzZecGZ6S83EyDetRZNB4AXv-G') center/cover no-repeat"> </div>
+     </div>
+    <script>
+        $(document).ready(function() {
+            $(document).ready(function() {
+			$('#book').wowBook({
+				 height : 504
+				,width  : 640
+				,centeredWhenClosed : true
+				,hardcovers : true
+				,turnPageDuration : 500
+				,numberedPages : [1,-2]
+				,thumbnailsPosition : 'bottom'
+				,onFullscreenError : function(){
+					var msg="Fullscreen failed.";
+					if (self!=top) msg="The frame is blocking full screen mode. Click on 'remove frame' button above and try to go full screen again."
+					alert(msg);
+				}
+			}).css({'display':'none', 'margin':'auto'}).fadeIn(1000);
+
+			// $("#cover").click(function(){
+			// 	$.wowBook("#features").advance();
+			// });
+
+			// var book = $.wowBook("#features");
+
+			// function rebuildThumbnails(){
+			// 	book.destroyThumbnails()
+			// 	book.showThumbnails()
+			// 	$("#thumbs_holder").css("marginTop", -$("#thumbs_holder").height()/2)
+			// }
+			// $("#thumbs_position button").on("click", function(){
+			// 	var position = $(this).text().toLowerCase()
+			// 	if ($(this).data("customized")) {
+			// 		position = "top"
+			// 		book.opts.thumbnailsParent = "#thumbs_holder";
+			// 	} else {
+			// 		book.opts.thumbnailsParent = "body";
+			// 	}
+			// 	book.opts.thumbnailsPosition = position
+			// 	rebuildThumbnails();
+			// })
+			// $("#thumb_automatic").click(function(){
+			// 	book.opts.thumbnailsSprite = null
+			// 	book.opts.thumbnailWidth = null
+			// 	rebuildThumbnails();
+			// })
+			// $("#thumb_sprite").click(function(){
+			// 	book.opts.thumbnailsSprite = "images/thumbs.jpg"
+			// 	book.opts.thumbnailWidth = 136
+			// 	rebuildThumbnails();
+			// })
+			// $("#thumbs_size button").click(function(){
+			// 	var factor = 0.02*( $(this).index() ? -1 : 1 );
+			// 	book.opts.thumbnailScale = book.opts.thumbnailScale + factor;
+			// 	rebuildThumbnails();
+			// })
+
+		});
+        });
+
+    </script>
+</body>
+</html>

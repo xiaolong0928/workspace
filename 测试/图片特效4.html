@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/MarchingSquares.js"></script>
+</head>
+<style>
+    .box{
+        display:flex;
+        flex-wrap: wrap;
+    }
+   canvas{
+       margin: 30px;
+   }
+    
+</style> 
+<body>
+    <div class="box">
+        <canvas id="canvas" width="320px" height="220px"></canvas>
+         <canvas id="canvas2" width="320px" height="220px"></canvas>
+        <!--<canvas id="canvas3" width="300px" height="200px"></canvas>
+        <canvas id="canvas4" width="300px" height="200px"></canvas> -->
+        
+    </div>
+    <script>
+        // 企鹅图 http://res1.eqh5.com/FuL9srLAsfEUZr8-qqs25JrPoznw?imageMogr2/auto-orient
+        function loadImg(src){
+            const imgNode = new Image()
+            imgNode.crossOrigin = 'anonymous'
+            imgNode.src = src
+            return new Promise((resolve,reject)=>{
+                imgNode.onload = function(){
+                    resolve(imgNode)
+                }
+            })
+        }
+        function drawOuttline(src,node){
+            var ctx = node.getContext('2d');
+            loadImg(src).then(imgNode=>{
+                ctx.drawImage(imgNode, 10, 10, 300, 200);
+
+                // ctx.globalCompositeOperation = "source-in";
+                // ctx.fillStyle = "#FF0000";
+                // ctx.fillRect(10, 10, 300, 200);
+                // ctx.globalCompositeOperation = "source-over";
+                // ctx.drawImage(imgNode, 10, 10, 300, 200);
+
+                // const imageData = ctx.getImageData(0,0,320,220)
+                // const path = recongizeImageData(imageData)
+                // console.log(path)
+                // let resultPath = smoothPath(imageData,path)
+                // fillPath(imageData,resultPath)
+                // ctx.putImageData(imageData,0,0)
+                // calculatePath(path)
+                // ctx.putImageData(imageData,0,0)
+
+                // 拷贝一份
+                const imageData = ctx.getImageData(0,0,320,220)
+                let copyData = new ImageData(imageData.data,imageData.width,imageData.height);
+                // 采用库
+                var pathPoints = MarchingSquares.getBlobOutlinePoints(node);
+                var points = [];
+                // 稀疏10倍
+                for(var i = 0;i < pathPoints.length;i += 8){
+                    points.push({
+                        x:pathPoints[i],
+                        y:pathPoints[i + 1],
+                    })
+                }
+                console.log(points)
+                
+                points = transferImageData(copyData,points)
+                
+                // strokeOutLine2(ctx,points,6,'red')
+                strokeOutLine(ctx,points,4,'#00CCFF') //0,204,255
+                // strokeOutLine(ctx,points,2,'yellow')
+                // ctx.drawImage(imgNode, 10, 10, 300*0.96, 200*0.96);
+                // const imageDataLatest = ctx.getImageData(0,0,320,220)
+                // compareImageData(copyData,imageDataLatest)
+                // ctx.putImageData(imageDataLatest,0,0)
+            })
+        }
+        //转换points 确保图片不失真
+        function transferImageData(imageData,points){
+            const width = imageData.width
+            const height = imageData.height
+            points.map(point=>{
+                let index = width * (point.y-1)+point.x
+                let target = checkPixelIsEdge(imageData,index)
+                /*
+                * up-left      up       up-right 
+             * left        center    right
+             * down-left    down     right-down
+             */
+
+
+                if(target.state){
+                    if(target.type === 'up'){
+                        point.y -=1
+                    } else if(target.type === 'up-right'){
+                        point.y -=1
+                        point.x +=1
+                    }else if(target.type === 'right'){
+                        point.x +=1
+                    }else if(target.type === 'right-down'){
+                        point.y +=1
+                        point.x +=1
+                    }else if(target.type === 'down'){
+                        point.y +=1
+                    }else if(target.type === 'down-left'){
+                        point.y +=1
+                        point.x -=1
+                    }else if(target.type === 'left'){
+                        point.x -=1
+                    }else if(target.type === 'up-left'){
+                        point.y -=1
+                        point.x -=1
+                    }
+                }
+            })
+            return points
+        }
+        // 校准
+        function compareImageData(beforeData,afterData,color){
+            for(let i=0;i<beforeData.data.length;i+=4){
+                let pointBefore = beforeData.data[i]+''+beforeData.data[i+1]+''+beforeData.data[i+2]
+                let pointAfter = afterData.data[i] +''+afterData.data[i+1]+''+afterData.data[i+2]  
+                if(pointBefore !== pointAfter){
+                    if(pointAfter[i] === '0205255' && pointBefore !== '000'){
+                        afterData.data[i] = beforeData.data[i]
+                        afterData.data[i+1] = beforeData.data[i+1]
+                        afterData.data[i+2] = beforeData.data[i+2]
+                        afterData.data[i+3] = beforeData.data[i+3]
+                    }
+                }
+            }
+        }
+        // 使用二次贝塞尔曲线
+        function strokeOutLine2(ctx,points,num,color){
+                ctx.beginPath();
+                ctx.lineWidth = num;
+                ctx.strokeStyle = color;
+                
+                for (var i = 1; i < points.length-6; i++) {
+                    
+                    ctx.moveTo(points[i-1].x, points[i-1].y);
+                    ctx.bezierCurveTo(points[i+1].x,points[i+1].y,points[i+3].x,points[i+3].y,points[i+5].x,points[i+5].y);
+                }
+                
+
+                for (var i = 2; i < points.length-6; i++) {
+                    
+                    ctx.moveTo(points[i-1].x, points[i-1].y);
+                    ctx.bezierCurveTo(points[i+1].x,points[i+1].y,points[i+3].x,points[i+3].y,points[i+5].x,points[i+5].y);
+                }
+
+                for (var i = 3; i < points.length-6; i++) {
+                    
+                    ctx.moveTo(points[i-1].x, points[i-1].y);
+                    // ctx.lineTo(point.x,point.y);
+                    ctx.bezierCurveTo(points[i+1].x,points[i+1].y,points[i+3].x,points[i+3].y,points[i+5].x,points[i+5].y);
+                }
+                for (var i = 4; i < points.length-6; i++) {
+                    
+                    ctx.moveTo(points[i-1].x, points[i-1].y);
+                    // ctx.lineTo(point.x,point.y);
+                    ctx.bezierCurveTo(points[i+1].x,points[i+1].y,points[i+3].x,points[i+3].y,points[i+5].x,points[i+5].y);
+                }
+                
+                // 确保最后连贯起来
+                let fl = points.length-6
+                ctx.moveTo(points[fl].x, points[fl].y);
+                ctx.quadraticCurveTo(points[fl+1].x,points[fl+1].y,points[fl+3].x,points[fl+3].y,points[0].x,points[0].y);
+                ctx.closePath();
+                ctx.stroke();
+        }
+        // 贝塞尔曲线
+        function strokeOutLine(ctx,points,num,color){
+                ctx.beginPath();
+                ctx.lineWidth = num;
+                ctx.strokeStyle = color;
+                
+                for (var i = 0; i < points.length-2; i+=2) {
+                    
+                    ctx.moveTo(points[i].x, points[i].y);
+                    // ctx.lineTo(point.x,point.y);
+                    ctx.quadraticCurveTo(points[i+1].x,points[i+1].y,points[i+2].x,points[i+2].y);
+                }
+                
+
+                for (var i = 1; i < points.length-2; i+=2) {
+                    
+                    ctx.moveTo(points[i].x, points[i].y);
+                    // ctx.lineTo(point.x,point.y);
+                    ctx.quadraticCurveTo(points[i+1].x,points[i+1].y,points[i+2].x,points[i+2].y);
+                }
+
+                for (var i = 2; i < points.length-2; i+=2) {
+                    
+                    ctx.moveTo(points[i].x, points[i].y);
+                    // ctx.lineTo(point.x,point.y);
+                    ctx.quadraticCurveTo(points[i+1].x,points[i+1].y,points[i+2].x,points[i+2].y);
+                }
+                
+                // 确保最后连贯起来
+                let fl = points.length-2
+                ctx.moveTo(points[fl].x, points[fl].y);
+                ctx.quadraticCurveTo(points[fl+1].x,points[fl+1].y,points[0].x,points[0].y);
+                ctx.closePath();
+                ctx.stroke();
+        }
+
+
+        // 把path 根据Y的不同 分成y个数组，每个数组找x不连续点 作为起始点
+        // 找出大概40个点最后用贝塞尔曲线连接起来
+        function calculatePath(path){
+            let transObj = {}
+            let target=[]
+            path.map(position=>{
+                const y = position.y
+                const x = position.x
+                // transObj.y = []
+                if(!transObj[y]){
+                    transObj[y] = []
+                }
+                transObj[y].push(x)
+            })
+            // 遍历 transObj
+            for(let y in transObj){
+                const xArr = transObj[y]
+                // 同一行连接 判断xArr 里面的点位是不是连续点 如果是连续点就连接起来
+                let sameX = findSquenceNum(xArr)
+                let currentSkipX = findSquenceSkipNum(xArr)
+                for(let i =0;i<sameX.length/2;i++){
+                    addTarget(target,sameX[i*2],y,sameX[i*2+1],y)
+                }
+                // 与上一行承接
+                if(transObj[y-1]){
+                    const lastXArr = transObj[y-1]
+                    let lastSkipX = findSquenceSkipNum(lastXArr)
+                    for(let i = 0 ;i<currentSkipX.length;i++){
+                        const currentX = currentSkipX[i]
+                        for(let j=0;j<lastSkipX.length;j++){
+                            const lastX = lastSkipX[j]
+                            // if(currentX === las)
+                        }
+                    }
+                }
+            }
+        }
+        function findRelation(current,last,y){
+            
+        }
+        function addTarget(target,x1,y1,x2,y2){
+            target.push({
+                start:{
+                    x:x1,
+                    y:y1
+                },
+                end:{
+                    x:x2,
+                    y:y2
+                }
+            })
+        }
+        // 找出数组中 顺序的数字 比如 [1,2,3,7,8,9] 返回[1,3,7,9] 如果没有返回空
+        function findSquenceNum(arr){
+            let target = []
+            let first = arr[0]
+            let last = arr[0]
+            let j = 1
+            for(let i=1;i<arr.length;i++){
+                const val = arr[i]
+                if(first + j === val){
+                    last = val
+                    j++
+                } else {
+                    if(last !== first){
+                        target.push(first)
+                        target.push(last)
+                        first = val
+                        last = val
+                        j=1
+                    }
+                }
+            }
+            if(last !== first){
+                target.push(first)
+                target.push(last)
+            }
+            return target
+        }
+        // 去除该行中连续的数字 比如[1,2,3,7,8,9] 输出[1,3,7,9]
+        function findSquenceSkipNum(arr){
+            let target = [arr[0]]
+            let final = arr[arr.length-1]
+            for(let i=1;i<arr.length;i++){
+                const current = arr[i]
+                const last = arr[i-1]
+                if(current-last !== 1){
+                    if(target.indexOf(last) < 0){
+                        target.push(last)
+                    }
+                    target.push(current)
+                }
+            }
+            if(target.indexOf(final) < 0){
+                target.push(final)
+            }
+            return target
+        }
+        // 平滑算法 填充路径 描边暂且设置为3px  搁置 暂且不用
+        function smoothPath(imageData,path){
+            const width = imageData.width
+            const height = imageData.height
+            let result = []
+            let thick = 3
+            path.map(position=>{
+                const index = position.index
+                if(position.y === 154){
+
+                    if(position.type === 'up'){
+                        for(let i =1;i<=thick;i++){
+                            result.push(index-width*i)
+                        }
+                    } else if(position.type === 'up-right'){
+                        for(let i =1;i<=thick;i++){
+                            result.push(index-width*i+i)
+                        }
+                    }else if(position.type === 'right'){
+                        for(let i =1;i<=thick;i++){
+                            result.push(index+i)
+                        }
+                    }else if(position.type === 'right-down'){
+                        for(let i =1;i<=thick;i++){
+                            result.push(index+width*i+i)
+                        }
+                    }else if(position.type === 'down'){
+                        for(let i =1;i<=thick;i++){
+                            result.push(index+width*i)
+                        }
+                    }else if(position.type === 'down-left'){
+                        for(let i =1;i<=thick;i++){
+                            result.push(index+width*i-i)
+                        }
+                    }else if(position.type === 'left'){
+                        for(let i =1;i<=thick;i++){
+                            result.push(index-i)
+                        }
+                    }else if(position.type === 'up-left'){
+                        for(let i =1;i<=thick;i++){
+                            result.push(index-width*i-i)
+                        }
+                    }
+                }
+            })
+            return result
+        }
+        // 填充路径 为红色
+        function fillPath(imageData,path){
+            path.map(index=>{
+                imageData.data[index*4] = 255
+                imageData.data[index*4+1] = 0
+                imageData.data[index*4+2] = 0
+                imageData.data[index*4+3] = 255
+            })
+            return imageData
+        }
+        // 识别图片轮廓 返回路径代码
+        function recongizeImageData(imageData){
+            // 每四个点描述一个像素
+            let path = []
+            const totalPixel = imageData.data.length/4
+            const width = imageData.width
+            const height = imageData.height
+            for(let i=0;i<totalPixel;i++){
+                // 遍历 找出边缘节点，如果是边缘节点 那么判断边缘节点类型 把对应的像素点加入路径数组
+                let target = checkPixelIsEdge(imageData,i)
+                if(target.state){
+                    path.push({
+                        index:i,
+                        x:i%width,
+                        y:Math.ceil(i/width),
+                        type:target.type
+                    })
+                }
+            }
+            return path
+        }
+        // 检测像素是否是透明
+        function checkPixelIsTransparent(imageData,index){
+            let arr = imageData.data.slice(index*4,index*4+4)
+            return arr.every(key=>key===0)
+        }
+        // 检测该像素是否是边缘像素
+        function checkPixelIsEdge(imageData,index){
+            // 找出该点的上下左右是否是透明
+            const width = imageData.width
+            const height = imageData.height
+            const totalPixel = imageData.data.length/4
+            let type = 'up'
+            let state = false
+            // 边界判断  不用判断边界  因为canvas 会把图片包裹一层
+            const upPointState = checkPixelIsTransparent(imageData,index-width)
+            const rightPointState = checkPixelIsTransparent(imageData,index+1)
+            const downPointState = checkPixelIsTransparent(imageData,index+width)
+            const leftPointState = checkPixelIsTransparent(imageData,index-1)
+            // 判断八个方向
+            /***
+             * up-left      up       up-right 
+             * left        center    right
+             * down-left    down     right-down
+             */
+            // 如果上 为透明 其余都不是
+            if(upPointState && !rightPointState && !downPointState && !leftPointState){
+                // 说明这个边缘是上边为空
+                type = 'up'
+                state = true
+            }
+            // 如果上左为透明 其余不是
+            if(upPointState && !rightPointState && !downPointState && leftPointState){
+                // 说明这个边缘是上边为空
+                type = 'up-left'
+                state = true
+            }
+            // 如果上右为透明 其余不是
+            if(upPointState && rightPointState && !downPointState && !leftPointState){
+                // 说明这个边缘是上边为空
+                type = 'up-right'
+                state = true
+            }
+            // 如果右为透明 其余都不是
+            if(!upPointState && rightPointState && !downPointState && !leftPointState){
+                // 说明这个边缘是上边为空
+                type = 'right'
+                state = true
+            }
+            // 如果右下为透明 其余都不是
+            if(!upPointState && rightPointState && downPointState && !leftPointState){
+                // 说明这个边缘是上边为空
+                type = 'right-down'
+                state = true
+            }
+            // 如果下为透明 其余都不是
+            if(!upPointState && !rightPointState && downPointState && !leftPointState){
+                // 说明这个边缘是上边为空
+                type = 'down'
+                state = true
+            }
+            // 如果下左为透明 其余都不是
+            if(!upPointState && !rightPointState && downPointState && leftPointState){
+                // 说明这个边缘是上边为空
+                type = 'down-left'
+                state = true
+            }
+            // 如果下为透明 其余都不是
+            if(!upPointState && !rightPointState && !downPointState && leftPointState){
+                // 说明这个边缘是上边为空
+                type = 'left'
+                state = true
+            }
+            return {
+                type,
+                state
+            }
+        }
+        drawOuttline('http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient',document.getElementById('canvas'))
+        drawOuttline('http://res1.eqh5.com/FuL9srLAsfEUZr8-qqs25JrPoznw?imageMogr2/auto-orient',document.getElementById('canvas2'))
+
+
+    </script>
+</body>
+</html>

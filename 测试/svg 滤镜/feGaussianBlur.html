@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        高斯模糊
+        in 标识为给定的滤镜原始输入：SourceGraphic | SourceAlpha | BackgroundImage | BackgroundAlpha | FillPaint | StrokePaint | 
+        
+            stdDeviation 模糊量
+
+     -->
+    <svg width="100%" height="1000px" >
+        <filter id="blur1">
+            <fegaussianblur in="SourceGraphic" stddeviation="5"/>
+        </filter>
+        <filter id="blur2">
+            <fegaussianblur in="SourceAlpha" stddeviation="5"/>
+        </filter>
+        <filter id="blur3">
+            <fegaussianblur in="BackgroundImage" stddeviation="2"/>
+        </filter>
+        <filter id="blur4">
+            <fegaussianblur in="BackgroundAlpha" stddeviation="5"/>
+        </filter>
+        <filter id="blur5">
+            <fegaussianblur in="FillPaint" stddeviation="5"/>
+        </filter>
+        <filter id="blur6">
+            <fegaussianblur in="StrokePaint" stddeviation="5"/>
+        </filter>
+        
+        
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" filter="url(#blur1)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="400px" y="0" filter="url(#blur2)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="800px" y="0" filter="url(#blur3)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="0px" y="300px" filter="url(#blur4)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="400px" y="300px" filter="url(#blur5)"></image>
+        <image xlink:href="http://res1.eqh5.com/Fhtjv6-X1F95bSLMVVnCHTJDewib?imageMogr2/auto-orient" width="300px" height="200px" x="800px" y="300px" filter="url(#blur6)"></image>
+    </svg>
+</body>
+</html>

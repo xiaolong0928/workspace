@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.common.dev.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.common.dev.js"></script>
+</head>
+<style>
+    
+/* @import url('https://fonts.googleapis.com/css2?family=Chango&family=Roboto+Slab:wght@100&display=swap'); */
+
+#app {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+}
+.turbulence {
+    width: 700px;
+    height: 300px;
+    margin: auto;
+    font-size: 12em;
+    filter: url(#fractal);
+}
+.turbulence img{
+    width: 200px;
+    height: 220px;
+}
+.config{
+    position: absolute;
+    top:45%;
+    left:45%;
+    display: flex;
+    flex-direction: column;
+    
+}
+.config input{
+    width:400px;
+}
+</style>
+<body>
+<div id="app">
+    <div class="turbulence">
+        <!-- <span>熊丹丹</span> -->
+        <img src="https://res1.eqh5.com/store/e71228d858595d438b1b038fdfee58df.png?imageMogr2/auto-orient" alt="">
+    </div>
+    <div class="config">
+        <span>baseFrequency:</span><input  type="range" min="0" max="1" step="0.00001"  v-model="num">
+        <span>scale:</span><input  type="range" min="0" max="100" step="1"  v-model="scale">
+    </div>
+    <div id="svg">
+</div>
+
+</div>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            num:0.001,
+            scale:1,
+        },
+        watch:{
+            num:{
+                deep:true,
+                handler(newVal){
+                    this.generateSvg()
+                    
+                }
+            },
+            scale(){
+                this.generateSvg()
+            }
+        },
+        methods:{
+            generateSvg(){
+                let svgNode = document.getElementById('svg')
+                const svgContent = `
+                <svg>
+                    <filter id="fractal" filterUnits="objectBoundingBox" x="0%" y="0%" width="100%" height="100%">
+                        <feTurbulence id="turbulence" type="fractalNoise" baseFrequency="${this.num}" numOctaves="1" />
+                        <feDisplacementMap in="SourceGraphic" scale="${this.scale}"></feDisplacementMap>
+                    </filter>
+                </svg>
+                `
+                svgNode.innerHTML = svgContent
+            }
+        }
+    })
+    
+    
+</script>
+</body>
+</html>
